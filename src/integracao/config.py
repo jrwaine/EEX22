@@ -5,7 +5,7 @@ def configGPIOs():
     gpio.setmode(gpio.BOARD)
     
     # out GPIO
-    for i in pd.GPIO_PORT_OUT:
+    for i in pd.GPIO_PORTS_OUT:
         gpio.setup(i, gpio.OUT)
     
     # encoder
