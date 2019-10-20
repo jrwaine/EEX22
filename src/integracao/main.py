@@ -53,15 +53,23 @@ def ultrassonic_test_loop():
 
 try:
     cf.configGPIOs()
+    servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
+    servo.start(100)
     cont_buzzer = 0
+    cont_servo = 0
     while(1):
         led_test_loop()
-        ultrassonic_test_loop()
-        '''
-        cont_buzzer += 1
-        if(cont_buzzer >= 5):
-            cont_buzzer = 0
-            buzzer_test_loop()
-       '''
+        ultrassonic_test_loop
+
+        servo.ChangeDutyCycle(cont_servo)
+        if(cont_servo == 0)
+            time.sleep(2)
+
+        cont_servo += 2
+        if(cont_servo >= 20):
+            cont_servo = 0
+            time.sle
+
+
 except KeyboardInterrupt:
     cf.resetGPIOs()
