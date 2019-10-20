@@ -14,7 +14,7 @@ def configGPIOs():
 
     # fim de curso
     gpio.setup(pd.GPIO_PORT_IN_FDC_LOWER, gpio.IN, pull_up_down=gpio.PUD_UP)
-    gpio.setup(pd.GPIO_PORT_IN_FDC_LOWER, gpio.IN, pull_up_down=gpio.PUD_UP)
+    gpio.setup(pd.GPIO_PORT_IN_FDC_UPPER, gpio.IN, pull_up_down=gpio.PUD_UP)
 
     # ultrassonico
     gpio.setup(pd.GPIO_PORT_IN_ULTR_ECHO, gpio.IN)

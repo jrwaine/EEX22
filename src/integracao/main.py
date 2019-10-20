@@ -70,13 +70,14 @@ def motor_paraf_loop():
     # subindo
     gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-    while(gpio.input(pd.GPIO_PORT_IN_FDC_HIGHER) == gpio.HIGH):
+    while(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH):
         continue
     gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
+    time.sleep(4)
 
 
-def motor_AGV_loop():
+def motor_AGV_lop():
     gpio.output(pd.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
@@ -90,6 +91,8 @@ def motor_AGV_loop():
 
 try:
     cf.configGPIOs()
+    for x in pd.GPIO_PORTS_OUT:
+        gpio.output(x, gpio.LOW)
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
     servo.start(100)
     cont_buzzer = 0
@@ -101,4 +104,6 @@ try:
         # motor_AGV_loop()
 
 except KeyboardInterrupt:
+    for x in pd.GPIO_PORTS_OUT:
+        gpio.output(x, gpio.LOW)
     cf.resetGPIOs()
