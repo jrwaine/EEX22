@@ -51,6 +51,29 @@ def ultrassonic_test_loop():
         buzz()
     #time.sleep(1)
 
+def servo_test_loop(cont):
+
+    servo.ChangeDutyCycle(cont)
+    time.sleep(0.5)
+    if(cont == 0):
+        time.sleep(2)
+
+    cont += 1
+    if(cont >= 10):
+        cont = 0
+
+def motor_paraf_loop():
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
+    time.sleep(0.1)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+    time.sleep(0.1)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+    gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+
+
 try:
     cf.configGPIOs()
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
@@ -60,15 +83,7 @@ try:
     while(1):
         led_test_loop()
         ultrassonic_test_loop()
-
-        servo.ChangeDutyCycle(cont_servo)
-        time.sleep(0.5)
-        if(cont_servo == 0):
-            time.sleep(2)
-
-        cont_servo += 2
-        if(cont_servo >= 20):
-            cont_servo = 0
+        motor_paraf_loop()
 
 
 except KeyboardInterrupt:
