@@ -72,6 +72,18 @@ def motor_paraf_loop():
     gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
 
 
+def motor_AGV_loop():
+    gpio.output(pd.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
+    time.sleep(2)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
+    time.sleep(2.5)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
+    gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
+
+
 try:
     cf.configGPIOs()
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
@@ -82,7 +94,7 @@ try:
         led_test_loop()
         ultrassonic_test_loop()
         motor_paraf_loop()
-
+        motor_AGV_loop()
 
 except KeyboardInterrupt:
     cf.resetGPIOs()
