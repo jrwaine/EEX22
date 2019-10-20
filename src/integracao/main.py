@@ -1,5 +1,6 @@
 import config as cf
 import portDefines as pd
+import encoder as ec
 import RPi.GPIO as gpio
 import time
 
@@ -77,14 +78,29 @@ def motor_paraf_loop():
     time.sleep(4)
 
 
-def motor_AGV_lop():
+def motor_AGV_loop():
     gpio.output(pd.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-    time.sleep(2)
+
+    ini = time.time()
+    position = ec.encoder()
+    while(time.time()-ini < 2):
+        res = ec.encoder()
+        if(res != position):
+            print(res)
+            position = res
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
-    time.sleep(2.5)
+
+    ini = time.time()
+    position = ec.encoder()
+    while(time.time()-ini < 4):
+        res = ec.encoder()
+        if(res != position):
+            print(res)
+            position = res
+
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
 
@@ -100,8 +116,8 @@ try:
     while(1):
         led_test_loop()
         ultrassonic_test_loop()
-        motor_paraf_loop()
-        # motor_AGV_loop()
+        # motor_paraf_loop()
+        motor_AGV_loop()
 
 except KeyboardInterrupt:
     for x in pd.GPIO_PORTS_OUT:

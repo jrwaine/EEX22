@@ -1,0 +1,38 @@
+import RPi.GPIO as gpio
+import portDefines as pd
+import time
+
+position = 0
+state = [(1, 1), (0, 1), (0, 0), (1, 0)]
+
+last_a = 1
+last_b = 1
+
+curr_state = [i for i in range(0, len(state)) if state[i] == (last_a, last_b)][0]
+last_state = curr_state
+position = 0
+
+def encoder():
+    enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
+    enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
+    time.sleep(0.001)
+    if(enc_a == 1):
+        if(enc_b == 1):
+            curr_state = 0
+        else:
+            curr_state = 3
+    else:
+        if(enc_b == 1):
+            curr_state = 1
+        else:
+            curr_state = 2
+ 
+    if(last_state != curr_state):
+        if(curr_state == 0):
+            if(last_state == 3):
+                position += 1
+            elif(last_state == 1):
+                position -= 1
+        last_state = curr_state
+    return position
+
