@@ -59,16 +59,16 @@ try:
     cont_servo = 0
     while(1):
         led_test_loop()
-        ultrassonic_test_loop
+        ultrassonic_test_loop()
 
         servo.ChangeDutyCycle(cont_servo)
-        if(cont_servo == 0)
+        time.sleep(0.5)
+        if(cont_servo == 0):
             time.sleep(2)
 
         cont_servo += 2
         if(cont_servo >= 20):
             cont_servo = 0
-            time.sle
 
 
 except KeyboardInterrupt:
