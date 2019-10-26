@@ -122,7 +122,7 @@ try:
     while(1):
         #led_test_loop()
         #ultrassonic_test_loop()
-        motor_paraf_loop()
+        #motor_paraf_loop()
         #  motor_AGV_loop()
         servo_test_loop(50) #duty cicle 50%
 
