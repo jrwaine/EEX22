@@ -54,8 +54,7 @@ def servo_test_loop(cont):
     time.sleep(0.5)
     if(cont == 0):
         time.sleep(2)
-
-    cont += 1
+    cont += 1  
     if(cont >= 10):
         cont = 0
     return cont
@@ -117,14 +116,16 @@ try:
     for x in pd.GPIO_PORTS_OUT:
         gpio.output(x, gpio.LOW)
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
-    servo.start(100)
+    servo.start(50)
     cont_buzzer = 0
     cont_servo = 0
     while(1):
-        led_test_loop()
-        ultrassonic_test_loop()
-        motor_paraf_loop()
+        #led_test_loop()
+        #ultrassonic_test_loop()
+        #motor_paraf_loop()
         #  motor_AGV_loop()
+        servo_test_loop(50) #duty cicle 50%
+
 
 except KeyboardInterrupt:
     for x in pd.GPIO_PORTS_OUT:
