@@ -2,7 +2,7 @@ import config as cf
 import moveAGV as motor
 
 try:
-    motor.move(20, 1)
+    motor.move(15, 60)
     cf.resetGPIOs()
 
 except KeyboardInterrupt:
