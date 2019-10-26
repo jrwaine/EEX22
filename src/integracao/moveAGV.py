@@ -22,9 +22,8 @@ def move(distance, velocity, direction=FORWARD):
 
     while encoder.data() * direction <= (distance + initial_position) * direction:
         print("Posicao atual", encoder.data())
-        motor.ChangeDutyCycle(velocity)
-        gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
-    
+        motor.ChangeDutyCycle(velocity)    
+
     stop()
 
 def stop():
@@ -32,9 +31,7 @@ def stop():
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
     motor.ChangeDutyCycle(100)
-    gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
     time.sleep(.300)
-    gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
     motor.ChangeDutyCycle(0)
