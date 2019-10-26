@@ -1,11 +1,15 @@
 import config as cf
 from moveAGV import Motor
+from parafusadeira import Parafusadeira
 
 try:
-    motor = Motor()
-    motor.move(15)
-    motor.move(-15)
-    cf.resetGPIOs()
+    para = Parafusadeira()
+    para.subir()
+    
+    # motor = Motor()
+    # motor.move(15)
+    # motor.move(-15)
+    # cf.resetGPIOs()
 
 except KeyboardInterrupt:
     cf.resetGPIOs()
