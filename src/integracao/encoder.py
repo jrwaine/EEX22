@@ -34,9 +34,9 @@ class Encoder(threading.Thread):
             if(self.last_state != self.curr_state):
                 if(self.curr_state == 0):
                     if(self.last_state == 3):
-                        self.position += 1
-                    elif(self.last_state == 1):
                         self.position -= 1
+                    elif(self.last_state == 1):
+                        self.position += 1
                 self.last_state = self.curr_state
 
     def data(self):
