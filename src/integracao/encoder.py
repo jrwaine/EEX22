@@ -1,7 +1,6 @@
 import RPi.GPIO as gpio
 import portDefines as pd
 import time
-from threading import Thread
 
 position = 0
 state = [(1, 1), (0, 1), (0, 0), (1, 0)]
@@ -44,6 +43,3 @@ def check():
                 position += 1
         last_state = curr_state
 
-th = Thread(target = check)
-print(th)
-th.start()
