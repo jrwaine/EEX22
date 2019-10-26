@@ -6,7 +6,7 @@ try:
     para = Parafusadeira()
     motor = Motor()
 
-    para.descer()
+    para.metade()
     motor.move(15)
 
     para.subir()
