@@ -5,6 +5,7 @@ import threading
 
 class Encoder(threading.Thread):
     def __init__(self):
+        print('Criando encoder')
         threading.Thread.__init__(self)
         self.position = 0
         self.state = [(1, 1), (0, 1), (0, 0), (1, 0)]

@@ -8,6 +8,7 @@ BACKWARDS = -1
 
 class Motor():
     def __init__(self):
+        print('Criando motor')
         self.encoder = Encoder()
         self.motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
         self.motor.start(0)
