@@ -17,6 +17,7 @@ def data():
     return position
 
 def check():
+    print("TA NA THREAD ", position)
     global last_a
     global last_b
     global last_state
