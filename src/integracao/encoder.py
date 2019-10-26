@@ -16,28 +16,28 @@ class Encoder(threading.Thread):
         self.start()
 
     def run(self):
-        print("TA NA THREAD ", self.position)
-        self.enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
-        self.enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
-        time.sleep(0.001)
-        if(self.enc_a == 1):
-            if(self.enc_b == 1):
-                self.curr_state = 0
+        while(True):
+            self.enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
+            self.enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
+            time.sleep(0.001)
+            if(self.enc_a == 1):
+                if(self.enc_b == 1):
+                    self.curr_state = 0
+                else:
+                    self.curr_state = 3
             else:
-                self.curr_state = 3
-        else:
-            if(self.enc_b == 1):
-                self.curr_state = 1
-            else:
-                self.curr_state = 2
-    
-        if(self.last_state != self.curr_state):
-            if(self.curr_state == 0):
-                if(self.last_state == 3):
-                    self.position += 1
-                elif(self.last_state == 1):
-                    self.position -= 1
-            self.last_state = self.curr_state
+                if(self.enc_b == 1):
+                    self.curr_state = 1
+                else:
+                    self.curr_state = 2
+        
+            if(self.last_state != self.curr_state):
+                if(self.curr_state == 0):
+                    if(self.last_state == 3):
+                        self.position += 1
+                    elif(self.last_state == 1):
+                        self.position -= 1
+                self.last_state = self.curr_state
 
     def data(self):
         return self.position

@@ -2,6 +2,7 @@ import RPi.GPIO as gpio
 import portDefines as pd
 from encoder import Encoder
 import time
+import threading
 
 FORWARD = 1
 BACKWARDS = -1
@@ -20,7 +21,7 @@ class Motor():
         else:
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-
+        print('oi')
         initial_position = self.encoder.data()
         print("Posicao inicial", initial_position)
         print(str(self.encoder.data() * direction) + ' - ' + str((distance + initial_position) * direction))
