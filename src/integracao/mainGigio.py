@@ -4,8 +4,8 @@ from parafusadeira import Parafusadeira
 
 try:
     para = Parafusadeira()
-    para.subir()
-    
+    para.descer()
+
     # motor = Motor()
     # motor.move(15)
     # motor.move(-15)
