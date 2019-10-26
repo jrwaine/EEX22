@@ -12,7 +12,7 @@ curr_state = [i for i in range(0, len(state)) if state[i] == (last_a, last_b)][0
 last_state = curr_state
 position = 0
 
-def encoder():
+def data():
     global last_a
     global last_b
     global last_state
