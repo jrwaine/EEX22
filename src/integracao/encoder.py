@@ -44,5 +44,6 @@ def check():
                 position += 1
         last_state = curr_state
 
-th = Thread(target = check).start()
+th = Thread(target = check)
 print(th)
+th.start()
