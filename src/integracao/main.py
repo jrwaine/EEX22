@@ -6,16 +6,33 @@ import time
 
 
 def upParafusadeira():
-    if(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) != gpio.HIGH): #chave desapertada
+    if(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH): #chave desapertada
         gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
         gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
         gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
         while(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH): #enquanto chave desapertada
             continue
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
         gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable off
         print("parafusadeira parada no topo")
     else:
         print("ja esta no topo")
+
+def downParafusadeira():
+    if(gpio.input(pd.GPIO_PORT_IN_FDC_LOWER) == gpio.HIGH): #chave desapertada
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
+        while(gpio.input(pd.GPIO_PORT_IN_FDC_LOWER) == gpio.HIGH): #enquanto chave desapertada
+            continue
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        print("desabilitando enable")
+        gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable off
+        print("parafusadeira parada embaixo")
+    else:
+        print("ja esta embaixo")
 
 def led_test_loop():
     time.sleep(0.5)
@@ -133,12 +150,13 @@ try:
     cont_buzzer = 0
     cont_servo = 0
     while(1):
-        upParafusadeira()
+        #upParafusadeira()
+        downParafusadeira()
         #led_test_loop()
         #ultrassonic_test_loop()
         #motor_paraf_loop()
         #  motor_AGV_loop()
-        servo_test_loop(50) #duty cicle 50%
+        #servo_test_loop(50) #duty cicle 50%
 
 
 except KeyboardInterrupt:
