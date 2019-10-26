@@ -19,7 +19,7 @@ def move(distance, velocity, direction=FORWARD):
 
     initial_position = encoder.data()
     print("Posicao inicial", initial_position)
-    print(encoder.data() * direction + ' - ' + (distance + initial_position) * direction)
+    print(str(encoder.data() * direction) + ' - ' + str((distance + initial_position) * direction))
 
     while encoder.data() * direction <= (distance + initial_position) * direction:
         print("Posicao atual", encoder.data())
