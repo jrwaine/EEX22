@@ -6,7 +6,7 @@ import time
 FORWARD = 1
 BACKWARDS = -1
 
-motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 20)
+motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
 motor.start(0)
 
 def move(distance, velocity, direction=FORWARD):
