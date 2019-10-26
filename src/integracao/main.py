@@ -156,6 +156,7 @@ try:
         #motor_paraf_loop()
         #  motor_AGV_loop()
         #servo_test_loop(50) #duty cicle 50%
+        cont_servo = servo_test_loop(cont)
 
 
 except KeyboardInterrupt:
