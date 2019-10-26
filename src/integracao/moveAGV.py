@@ -6,16 +6,16 @@ import time
 FORWARD = 1
 BACKWARDS = -1
 
-motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
+motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 20)
 motor.start(0)
 
 def move(distance, velocity, direction=FORWARD):
     if direction == FORWARD:
-        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
-        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-    else:
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
+    else:
+        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
+        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
 
     initial_position = encoder.data()
 
