@@ -1,42 +1,44 @@
 import RPi.GPIO as gpio
 import portDefines as pd
 import time
+import threading
 
-position = 0
-state = [(1, 1), (0, 1), (0, 0), (1, 0)]
+class Encoder(threading.Thread):
+    def __init__(self):
+        print('Criando encoder')
+        threading.Thread.__init__(self)
+        self.position = 0
+        self.state = [(1, 1), (0, 1), (0, 0), (1, 0)]
+        self.last_a = 1
+        self.last_b = 1
+        self.curr_state = [i for i in range(0, len(self.state)) if self.state[i] == (self.last_a, self.last_b)][0]
+        self.last_state = self.curr_state
+        self.start()
 
-last_a = 1
-last_b = 1
+    def run(self):
+        while(True):
+            self.enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
+            self.enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
+            time.sleep(0.001)
+            if(self.enc_a == 1):
+                if(self.enc_b == 1):
+                    self.curr_state = 0
+                else:
+                    self.curr_state = 3
+            else:
+                if(self.enc_b == 1):
+                    self.curr_state = 1
+                else:
+                    self.curr_state = 2
+        
+            if(self.last_state != self.curr_state):
+                if(self.curr_state == 0):
+                    if(self.last_state == 3):
+                        self.position -= 1
+                    elif(self.last_state == 1):
+                        self.position += 1
+                self.last_state = self.curr_state
 
-curr_state = [i for i in range(0, len(state)) if state[i] == (last_a, last_b)][0]
-last_state = curr_state
-position = 0
-
-def data():
-    global last_a
-    global last_b
-    global last_state
-    global position
-    enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
-    enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
-    time.sleep(0.001)
-    if(enc_a == 1):
-        if(enc_b == 1):
-            curr_state = 0
-        else:
-            curr_state = 3
-    else:
-        if(enc_b == 1):
-            curr_state = 1
-        else:
-            curr_state = 2
- 
-    if(last_state != curr_state):
-        if(curr_state == 0):
-            if(last_state == 3):
-                position += 1
-            elif(last_state == 1):
-                position -= 1
-        last_state = curr_state
-    return -position
+    def data(self):
+        return self.position
 

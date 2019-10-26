@@ -1,7 +1,8 @@
 import config as cf
-import moveAGV as motor
+from moveAGV import Motor
 
 try:
+    motor = Motor()
     motor.move(15, 60)
     cf.resetGPIOs()
 
