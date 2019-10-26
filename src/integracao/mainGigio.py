@@ -4,12 +4,15 @@ from parafusadeira import Parafusadeira
 
 try:
     para = Parafusadeira()
-    para.descer()
+    motor = Motor()
 
-    # motor = Motor()
-    # motor.move(15)
-    # motor.move(-15)
-    # cf.resetGPIOs()
+    para.descer()
+    motor.move(15)
+
+    para.subir()
+    motor.move(15)
+    motor.move(-30)
+    cf.resetGPIOs()
 
 except KeyboardInterrupt:
     cf.resetGPIOs()
