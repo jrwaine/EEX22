@@ -21,11 +21,12 @@ def move(distance, velocity, direction=FORWARD):
     print("Posicao inicial", initial_position)
     print(str(encoder.data() * direction) + ' - ' + str((distance + initial_position) * direction))
 
-    motor.ChangeDutyCycle(100)
-    time.sleep(.050)
     while encoder.data() * direction <= (distance + initial_position) * direction:
         print("Posicao atual", encoder.data())
-        motor.ChangeDutyCycle(velocity)    
+        motor.ChangeDutyCycle(100)
+        time.sleep(.050)    
+        motor.ChangeDutyCycle(0)
+        time.sleep(.050)    
 
     stop()
 
