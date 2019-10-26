@@ -1,5 +1,6 @@
-from threading import Thread
 import time
+from encoder import Encoder
+from threading import Thread
 
 check = False
 
@@ -14,7 +15,11 @@ def func2():
     global check
     print ("func2 started")
     time.sleep(2)
-    check = True
+    print (enco.data())
     time.sleep(2)
-    check = False
+    print (enco.data())
 
+if __name__ == '__main__':
+    enco = Encoder()
+    func2()
+    
