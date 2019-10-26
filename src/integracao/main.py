@@ -133,6 +133,10 @@ def motor_AGV_loop():
 def servo_test_loop(cont):
     servo.ChangeDutyCycle(cont)
     time.sleep(2)
+    if(cont == 5):
+        cont = 10
+    if(cont == 5):
+        cont = 10
     # if(cont == 0):
     #     time.sleep(2)
     # cont += 1  
@@ -148,7 +152,7 @@ try:
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
     servo.start(5) 
     cont_buzzer = 0
-    cont_servo = 7.5
+    cont_servo = 5
     while(1):
         #upParafusadeira()
         #downParafusadeira()
