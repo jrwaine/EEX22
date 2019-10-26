@@ -38,5 +38,5 @@ def data():
             elif(last_state == 1):
                 position -= 1
         last_state = curr_state
-    return position
+    return -position
 
