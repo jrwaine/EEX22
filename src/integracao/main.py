@@ -132,22 +132,23 @@ def motor_AGV_loop():
 
 def servo_test_loop(cont):
     servo.ChangeDutyCycle(cont)
-    time.sleep(0.5)
-    if(cont == 0):
-        time.sleep(2)
-    cont += 1  
-    if(cont >= 10):
-        cont = 0
+    time.sleep(2)
+    # if(cont == 0):
+    #     time.sleep(2)
+    # cont += 1  
+    # if(cont >= 10):
+    #     cont = 0
+    print("mexeu")
     return cont
 
 try:
     cf.configGPIOs()
     for x in pd.GPIO_PORTS_OUT:
         gpio.output(x, gpio.LOW)
-    servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50)
-    servo.start(50)
+    servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
+    servo.start(5) 
     cont_buzzer = 0
-    cont_servo = 0
+    cont_servo = 7.5
     while(1):
         #upParafusadeira()
         #downParafusadeira()
