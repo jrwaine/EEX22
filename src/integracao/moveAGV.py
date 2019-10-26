@@ -25,7 +25,7 @@ class Motor():
         initial_position = self.encoder.data()
         print("Posicao inicial", initial_position)
 
-        while self.encoder.data() <= distance + initial_position:
+        while self.encoder.data() * distance/abs(distance) <= abs(distance) + initial_position:
             print("Posicao atual", self.encoder.data())
             self.motor.ChangeDutyCycle(100)
             time.sleep(.050)    
