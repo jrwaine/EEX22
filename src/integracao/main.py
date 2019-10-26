@@ -6,7 +6,7 @@ import time
 
 
 def upParafusadeira():
-    if(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) != gpio.HIGH) #chave desapertada
+    if(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) != gpio.HIGH): #chave desapertada
         gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
         gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
         gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
