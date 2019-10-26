@@ -2,6 +2,8 @@ import RPi.GPIO as gpio
 import portDefines as pd
 import encoder
 import time
+from threading import Thread
+import time
 
 FORWARD = 1
 BACKWARDS = -1

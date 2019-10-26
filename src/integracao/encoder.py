@@ -1,6 +1,7 @@
 import RPi.GPIO as gpio
 import portDefines as pd
 import time
+from threading import Thread
 
 position = 0
 state = [(1, 1), (0, 1), (0, 0), (1, 0)]
@@ -13,6 +14,9 @@ last_state = curr_state
 position = 0
 
 def data():
+    return position
+
+def check():
     global last_a
     global last_b
     global last_state
@@ -34,9 +38,9 @@ def data():
     if(last_state != curr_state):
         if(curr_state == 0):
             if(last_state == 3):
-                position += 1
-            elif(last_state == 1):
                 position -= 1
+            elif(last_state == 1):
+                position += 1
         last_state = curr_state
-    return -position
 
+Thread(target = check).start()
