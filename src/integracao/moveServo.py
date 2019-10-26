@@ -3,7 +3,7 @@ import portDefines as pd
 import time
 
 servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #50hz
-servo.start(50)
+servo.start(0) 
 
 def moveServo(cont):
     servo.ChangeDutyCycle(0)
