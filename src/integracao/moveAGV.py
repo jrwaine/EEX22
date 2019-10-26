@@ -14,19 +14,18 @@ class Motor():
         self.motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
         self.motor.start(0)
 
-    def move(self, distance, velocity, direction=FORWARD):
-        if direction == FORWARD:
+    def move(self, distance):
+        if distance >= 0:
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
         else:
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-        print('oi')
+
         initial_position = self.encoder.data()
         print("Posicao inicial", initial_position)
-        print(str(self.encoder.data() * direction) + ' - ' + str((distance + initial_position) * direction))
 
-        while self.encoder.data() <= (distance + initial_position) if direction == FORWARD else -self.encoder.data() < (distance + initial_position):
+        while self.encoder.data() <= distance + initial_position:
             print("Posicao atual", self.encoder.data())
             self.motor.ChangeDutyCycle(100)
             time.sleep(.050)    
