@@ -78,15 +78,6 @@ def ultrassonic_test_loop():
     #time.sleep(1)
 
 
-def servo_test_loop(cont):
-    servo.ChangeDutyCycle(cont)
-    time.sleep(0.5)
-    if(cont == 0):
-        time.sleep(2)
-    cont += 1  
-    if(cont >= 10):
-        cont = 0
-    return cont
 
 
 def motor_paraf_loop():
@@ -139,6 +130,15 @@ def motor_AGV_loop():
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
 
+def servo_test_loop(cont):
+    servo.ChangeDutyCycle(cont)
+    time.sleep(0.5)
+    if(cont == 0):
+        time.sleep(2)
+    cont += 1  
+    if(cont >= 10):
+        cont = 0
+    return cont
 
 try:
     cf.configGPIOs()
@@ -150,7 +150,7 @@ try:
     cont_servo = 0
     while(1):
         #upParafusadeira()
-        downParafusadeira()
+        #downParafusadeira()
         #led_test_loop()
         #ultrassonic_test_loop()
         #motor_paraf_loop()
