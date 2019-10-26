@@ -18,14 +18,17 @@ def move(distance, velocity, direction=FORWARD):
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
 
     initial_position = encoder.data()
+    print("Posicao inicial", initial_position)
 
     while encoder.data() * direction <= (distance + initial_position) * direction:
+        print("Posicao atual", encoder.data())
         motor.ChangeDutyCycle(velocity)
         gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
     
     stop()
 
 def stop():
+    print("Parando..")
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
     motor.ChangeDutyCycle(100)
