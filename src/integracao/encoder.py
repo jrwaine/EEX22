@@ -17,11 +17,11 @@ def data():
     return position
 
 def check():
-    print("TA NA THREAD ", position)
     global last_a
     global last_b
     global last_state
     global position
+    print("TA NA THREAD ", position)
     enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
     enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
     time.sleep(0.001)
