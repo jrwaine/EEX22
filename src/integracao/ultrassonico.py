@@ -4,7 +4,7 @@ import time
 import threading
 
 CLOSE_OBJECT_DISTANCE = 10 #cm
-
+LIM_TIME = 2 #seg
 class Ultrassonico(threading.Thread):
     def __init__(self):
         print('Criando ultrassonico')
@@ -21,13 +21,29 @@ class Ultrassonico(threading.Thread):
 
             pulse_end = 0
             pulse_start = 0
-
+            start = time.time()
+            stop = False
             while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 0:
                 pulse_start = time.time()
+                if(time.time()-start > LIM_TIME):
+                    self.close_object = False
+                    stop = True
+                    continue
+            
+            if(stop):
+                continue
+            start = time.time()
 
             while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 1:
                 pulse_end = time.time()
-
+                if(time.time()-start > LIM_TIME):
+                    self.close_object = False
+                    stop = True
+                    continue
+            
+            if(stop):
+                continue
+            
             pulse_duration = pulse_end - pulse_start
 
             self.distance = round(pulse_duration * 17150, 2)
