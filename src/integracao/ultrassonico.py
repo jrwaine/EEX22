@@ -34,6 +34,7 @@ class Ultrassonico(threading.Thread):
             
             if self.distance < CLOSE_OBJECT_DISTANCE:
                 self.close_object = True
+                print('tem perto ', self.distance)
             else:
                 self.close_object = False
 
