@@ -20,13 +20,13 @@ class Parafusadeira():
             gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
             gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
             gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
-            time.sleep(self.half_duration * .7)
+            time.sleep(self.half_duration * .64)
 
         elif self.position == 'BAIXO':
             gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
             gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
             gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-            time.sleep(self.half_duration * 1.3)
+            time.sleep(self.half_duration * 1.36)
         
         gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
         gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
