@@ -4,19 +4,18 @@ import time
 import threading
 
 CLOSE_OBJECT_DISTANCE = 10 #cm
-LIM_TIME = 2 #seg
+LIM_TIME = .5 #seg
 class Ultrassonico(threading.Thread):
     def __init__(self):
         print('Criando ultrassonico')
         threading.Thread.__init__(self)
+        self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        self.kill_flag = None
         self.start()
 
     def run(self):
-        self.kill_flag = False
-        while(not self.kill_flag):
+        while not self.stopped():
             gpio.output(pd.GPIO_PORT_OUT_ULTR_TRIGG, True)
             time.sleep(0.00001)
             gpio.output(pd.GPIO_PORT_OUT_ULTR_TRIGG, False)
@@ -28,7 +27,7 @@ class Ultrassonico(threading.Thread):
             while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 0:
                 pulse_start = time.time()
                 if(time.time()-start > LIM_TIME):
-                    print('estou tempo in')
+                    print('estorou tempo in')
                     self.close_object = False
                     stop = True
                     continue
@@ -40,7 +39,7 @@ class Ultrassonico(threading.Thread):
             while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 1:
                 pulse_end = time.time()
                 if(time.time()-start > LIM_TIME):
-                    print('estou tempo out')
+                    print('estorou tempo out')
                     self.close_object = False
                     stop = True
                     continue
@@ -66,5 +65,8 @@ class Ultrassonico(threading.Thread):
     def check_can_move(self):
         return not self.close_object
     
-    def kill(self):
-        self.kill_flag = True
+    def stop(self):
+        self._stop_event.set()
+
+    def stopped(self):
+        return self._stop_event.isSet()

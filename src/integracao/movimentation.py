@@ -14,8 +14,6 @@ class Movimentation():
         self.encoder = Encoder()
         self.ultrassonico = Ultrassonico()
         self.buzzer = Buzzer()
-        self.motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
-        self.motor.start(0)
 
     def move(self, distance):
         self.restart()
@@ -34,20 +32,20 @@ class Movimentation():
             while self.encoder.data() < distance + initial_position:
                 if self.ultrassonico.check_can_move():
                     self.buzzer.buzz_off()
-                    self.motor.ChangeDutyCycle(100)
+                    gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
                     time.sleep(.050)    
-                    self.motor.ChangeDutyCycle(0)
+                    gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
                     time.sleep(.050)  
                 else:
                     self.buzzer.buzz_on()
         else:
-              while self.encoder.data() > distance + initial_position:
-                self.motor.ChangeDutyCycle(100)
+            while self.encoder.data() > distance + initial_position:
+                gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
                 time.sleep(.050)    
-                self.motor.ChangeDutyCycle(0)
+                gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
                 time.sleep(.050)  
 
-        self.stop()
+        self.brake()
 
     def inicio(self):
         self.restart()
@@ -56,31 +54,31 @@ class Movimentation():
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
         while self.encoder.data() != 0:
             self.buzzer.buzz_off()
-            self.motor.ChangeDutyCycle(100)
+            gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
             time.sleep(.050)    
-            self.motor.ChangeDutyCycle(0)
-            time.sleep(.050)  
+            gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
+            time.sleep(.050) 
         
-        self.stop()
+        self.brake()
 
-    def stop(self):
+    def brake(self):
         print("Parando..")
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-        self.motor.ChangeDutyCycle(100)
+        gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.HIGH)
         time.sleep(.300)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
-        self.motor.ChangeDutyCycle(0)
+        gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
 
-    def kill(self):
-        self.stop()
-        self.encoder.kill()
-        self.ultrassonico.kill()
+    def stop(self):
+        self.brake()
+        self.encoder.stop()
+        self.ultrassonico.stop()
 
     def restart(self):
-        if self.encoder.kill_flag == True:
+        if self.encoder.stopped() == True:
             self.encoder.start()
         
-        if self.ultrassonico.kill_flag == True:
-            self.encoder.start()
+        if self.ultrassonico.stopped() == True:
+            self.ultrassonico.start()
