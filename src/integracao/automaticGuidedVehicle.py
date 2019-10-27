@@ -18,3 +18,7 @@ class AGV():
     def apertar(self, graus):
         self.parafusadeira.descer()
         print('Apertou ', graus)
+
+    def inicio(self):
+        self.parafusadeira.subir()
+        self.movimentation.inicio()

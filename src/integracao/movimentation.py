@@ -51,6 +51,18 @@ class Movimentation():
 
         self.stop()
 
+    def inicio(self):
+        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
+        gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
+        while self.encoder.data() != 0:
+            self.buzzer.buzz_off()
+            self.motor.ChangeDutyCycle(100)
+            time.sleep(.050)    
+            self.motor.ChangeDutyCycle(0)
+            time.sleep(.050)  
+        
+        self.stop()
+
     def stop(self):
         print("Parando..")
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)

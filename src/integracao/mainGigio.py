@@ -6,8 +6,8 @@ try:
 
     agv.move(15, 'MEIO')
     agv.move(15)
-    
     agv.apertar(30)
+    agv.inicio()
     
     cf.resetGPIOs()
 
