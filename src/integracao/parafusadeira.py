@@ -10,6 +10,7 @@ class Parafusadeira():
         self._config()
 
     def _config(self):
+        self.subir()
         self.descer()
         init_time = time.time()
         self.subir()
