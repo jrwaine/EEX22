@@ -6,7 +6,6 @@ from buzzer import Buzzer
 from encoder import Encoder
 from ultrassonico import Ultrassonico
 
-
 FORWARD = 1
 BACKWARDS = -1
 

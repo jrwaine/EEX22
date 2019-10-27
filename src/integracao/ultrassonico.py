@@ -9,7 +9,7 @@ class Ultrassonico(threading.Thread):
     def __init__(self):
         print('Criando ultrassonico')
         threading.Thread.__init__(self)
-        self.distance
+        self.distance = None
         self.close_object = None
         self.start()
 

@@ -1,17 +1,14 @@
 import config as cf
-from moveAGV import Motor
-from parafusadeira import Parafusadeira
+from automaticGuidedVehicle import AGV
 
 try:
-    para = Parafusadeira()
-    motor = Motor()
+    agv = AGV()
 
-    para.metade()
-    motor.move(15)
-
-    para.subir()
-    motor.move(15)
-    motor.move(-30)
+    agv.move(15, 'MEIO')
+    agv.move(15)
+    
+    agv.apertar(30)
+    
     cf.resetGPIOs()
 
 except KeyboardInterrupt:
