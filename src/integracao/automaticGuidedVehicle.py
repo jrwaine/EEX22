@@ -16,6 +16,7 @@ class AGV():
         self.movimentation.move(distance)
 
     def apertar(self, graus):
+        self.movimentation.kill()
         self.parafusadeira.descer()
         print('Apertou ', graus)
 

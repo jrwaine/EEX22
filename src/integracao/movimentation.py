@@ -18,6 +18,8 @@ class Movimentation():
         self.motor.start(0)
 
     def move(self, distance):
+        self.restart()
+
         if distance >= 0:
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
@@ -48,6 +50,8 @@ class Movimentation():
         self.stop()
 
     def inicio(self):
+        self.restart()
+        
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
         while self.encoder.data() != 0:
@@ -68,3 +72,15 @@ class Movimentation():
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
         self.motor.ChangeDutyCycle(0)
+
+    def kill(self):
+        self.stop()
+        self.encoder.kill()
+        self.ultrassonico.kill()
+
+    def restart(self):
+        if self.encoder.kill_flag == True:
+            self.encoder.start()
+        
+        if self.ultrassonico.kill_flag == True:
+            self.encoder.start()

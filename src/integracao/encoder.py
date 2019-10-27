@@ -13,10 +13,12 @@ class Encoder(threading.Thread):
         self.last_b = 1
         self.curr_state = [i for i in range(0, len(self.state)) if self.state[i] == (self.last_a, self.last_b)][0]
         self.last_state = self.curr_state
+        self.kill_flag = None
         self.start()
 
     def run(self):
-        while(True):
+        self.kill_flag = False
+        while(not self.kill_flag):
             self.enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
             self.enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
             time.sleep(0.001)
@@ -41,4 +43,8 @@ class Encoder(threading.Thread):
 
     def data(self):
         return self.position
+
+    def kill(self):
+        self.kill_flag = True
+
 
