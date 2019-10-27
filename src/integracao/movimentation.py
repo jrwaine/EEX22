@@ -1,16 +1,20 @@
 import RPi.GPIO as gpio
 import portDefines as pd
-from encoder import Encoder
 import time
-import threading
+
+from buzzer import Buzzer
+from encoder import Encoder
+from ultrassonico import Ultrassonico
+
 
 FORWARD = 1
 BACKWARDS = -1
 
-class Motor():
+class Movimentation():
     def __init__(self):
-        print('Criando motor')
         self.encoder = Encoder()
+        self.ultrassonico = Ultrassonico()
+        self.buzzer = Buzzer()
         self.motor = gpio.PWM(pd.GPIO_PORT_OUT_AGV_EN_PWM, 100)
         self.motor.start(0)
 
@@ -29,11 +33,15 @@ class Motor():
 
         if distance >= 0:
             while self.encoder.data() < distance + initial_position:
-                print("Posicao atual", self.encoder.data())
-                self.motor.ChangeDutyCycle(100)
-                time.sleep(.050)    
-                self.motor.ChangeDutyCycle(0)
-                time.sleep(.050)  
+                if self.ultrassonico.check_can_move():
+                    self.buzzer.buzz_off()
+                    print("Posicao atual", self.encoder.data())
+                    self.motor.ChangeDutyCycle(100)
+                    time.sleep(.050)    
+                    self.motor.ChangeDutyCycle(0)
+                    time.sleep(.050)  
+                else:
+                    self.buzzer.buzz_on()
         else:
               while self.encoder.data() > distance + initial_position:
                 print("Posicao atual", self.encoder.data())
