@@ -27,14 +27,11 @@ class Movimentation():
             gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
 
         initial_position = self.encoder.data()
-        print("Posicao inicial", initial_position)
-
 
         if distance >= 0:
             while self.encoder.data() < distance + initial_position:
                 if self.ultrassonico.check_can_move():
                     self.buzzer.buzz_off()
-                    print("Posicao atual", self.encoder.data())
                     self.motor.ChangeDutyCycle(100)
                     time.sleep(.050)    
                     self.motor.ChangeDutyCycle(0)
@@ -43,7 +40,6 @@ class Movimentation():
                     self.buzzer.buzz_on()
         else:
               while self.encoder.data() > distance + initial_position:
-                print("Posicao atual", self.encoder.data())
                 self.motor.ChangeDutyCycle(100)
                 time.sleep(.050)    
                 self.motor.ChangeDutyCycle(0)

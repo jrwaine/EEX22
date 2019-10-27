@@ -20,9 +20,13 @@ def configGPIOs():
     # ultrassonico
     gpio.setup(pd.GPIO_PORT_IN_ULTR_ECHO, gpio.IN)
 
+    print('Raspberry configurada')
+
 def resetGPIOs():
     for port in pd.GPIO_PORTS_OUT:
         gpio.output(port, gpio.LOW)
     gpio.cleanup()
+
+    print('Raspberry cleanup')
 
 configGPIOs()
