@@ -7,10 +7,9 @@ class Parafusadeira():
         print('Criando parafusadeira')
         self.position = None
         self.half_duration = None
-        # self._config()
+        self._config()
 
     def _config(self):
-        self.subir()
         self.descer()
         init_time = time.time()
         self.subir()

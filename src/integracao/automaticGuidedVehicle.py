@@ -3,8 +3,8 @@ from parafusadeira import Parafusadeira
 
 class AGV():
     def __init__(self):
-        self.movimentation = Movimentation()
         self.parafusadeira = Parafusadeira()
+        self.movimentation = Movimentation()
         # CAMERA ?
 
     def move(self, distance, position='CIMA'):
