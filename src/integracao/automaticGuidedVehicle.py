@@ -1,13 +1,14 @@
 from movimentation import Movimentation
 from parafusadeira import Parafusadeira
 from servo import Servo
+from camera import Camera
 
 class AGV():
     def __init__(self):
         self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
         self.servo = Servo()
-        # CAMERA ?
+        self.camera = Camera()
 
     def move(self, distance, position='CIMA'):
         if self.parafusadeira.position != position:
@@ -26,3 +27,6 @@ class AGV():
     def inicio(self):
         self.parafusadeira.subir()
         self.movimentation.inicio()
+
+    def verificar_parafuso(self):
+        return self.camera.verificar()

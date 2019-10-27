@@ -7,7 +7,7 @@ MAX = 20
 PASSO = .2 # (MAX - MIN)/90
 
 class Servo():
-    def __init__(self, config=True):
+    def __init__(self):
         print('Criando servo')
         self._pwm = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
         self._pwm.start(MIN) 
