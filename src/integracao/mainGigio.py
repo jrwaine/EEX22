@@ -4,9 +4,9 @@ from automaticGuidedVehicle import AGV
 try:
     agv = AGV()
 
-    agv.move(15, 'MEIO')
-    agv.move(15)
+    agv.move(25, 'MEIO')
     agv.apertar(30)
+    agv.move(15)
     agv.inicio()
     
     cf.resetGPIOs()
