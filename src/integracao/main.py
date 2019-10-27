@@ -4,7 +4,9 @@ import encoder as ec
 import RPi.GPIO as gpio
 import time
 
-
+MIN = 2
+MAX = 20
+PASSO = 0.5
 def upParafusadeira():
     if(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH): #chave desapertada
         gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
@@ -131,12 +133,12 @@ def motor_AGV_loop():
     gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
 
 def servo_test_loop(cont):
+    print(cont)
     servo.ChangeDutyCycle(cont)
-    time.sleep(2)
-    if(cont == 5):
-        cont = 10
-    if(cont == 5):
-        cont = 10
+    time.sleep(3)
+    cont += PASSO
+    if(cont > MAX):
+        cont = MIN
     # if(cont == 0):
     #     time.sleep(2)
     # cont += 1  
@@ -152,7 +154,7 @@ try:
     servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
     servo.start(5) 
     cont_buzzer = 0
-    cont_servo = 5
+    cont_servo = MIN
     while(1):
         #upParafusadeira()
         #downParafusadeira()
