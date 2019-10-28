@@ -11,6 +11,7 @@ class Servo():
         self.position = globals.MIN
         
     def apertar(self, graus):
+        print('posicionando em', graus, 'graus')
         while self.position != int(graus * globals.PASSO) + globals.MIN:
             self.position += globals.PASSO
             if(self.position > globals.MAX):
@@ -18,9 +19,11 @@ class Servo():
             self._pwm.ChangeDutyCycle(self.position)
             time.sleep(.8)
         
+        print('trazendo para', 0, 'graus')
         while self.position != globals.MIN:
             self.position -= globals.PASSO
             self._pwm.ChangeDutyCycle(self.position)
             time.sleep(.8)
 
+        print('apertou')
         self._pwm.ChangeDutyCycle(0)

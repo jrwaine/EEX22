@@ -8,6 +8,7 @@ class Camera():
         self.led = Led()
         
     def verificar(self):
+        print('processando imagem')
         self.led.acender()
 
         # processar imagem

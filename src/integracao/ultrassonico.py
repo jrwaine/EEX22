@@ -13,6 +13,7 @@ class Ultrassonico(threading.Thread):
         self.start()
 
     def run(self):
+        print('Iniciando thread ultrassonico')
         while not self.stopped():
             gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
             time.sleep(0.00001)

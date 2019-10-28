@@ -7,9 +7,11 @@ class Led():
         self.estado = globals.OFF
         
     def acender(self):
+        print('acendendo led')
         gpio.output(ports.GPIO_PORT_OUT_LED, gpio.HIGH)
         self.estado = globals.ON        
 
     def apagar(self):
+        print('apagando led')
         gpio.output(ports.GPIO_PORT_OUT_LED, gpio.LOW)
         self.estado = globals.OFF   

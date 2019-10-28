@@ -13,6 +13,7 @@ class Movimentation():
         self.buzzer = Buzzer()
 
     def move(self, distance):
+        print('vai mover')
         self.restart()
 
         if distance >= 0:
@@ -45,6 +46,7 @@ class Movimentation():
         self.brake()
 
     def inicio(self):
+        print('voltando para o inicio')
         self.restart()
         
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
@@ -57,6 +59,7 @@ class Movimentation():
             time.sleep(.050) 
         
         self.brake()
+        print('ta no inicio')
 
     def brake(self):
         print("Freiando..")
@@ -71,11 +74,12 @@ class Movimentation():
 
     def stop(self):
         self.brake()
-        print('parando a movimentacao')
+        print('parando as threads de movimentacao')
         self.encoder.stop()
         self.ultrassonico.stop()
 
     def restart(self):
+        print('restartando todas as threads para movimentacao')
         if self.encoder.stopped() == True:
             self.encoder.start()
         
