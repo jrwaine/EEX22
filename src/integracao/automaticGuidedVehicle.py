@@ -7,9 +7,9 @@ from camera import Camera
 class AGV():
     def __init__(self):
         self.parafusadeira = Parafusadeira(False)
-        # self.movimentation = Movimentation()
-        # self.servo = Servo()
-        # self.camera = Camera()
+        self.movimentation = Movimentation()
+        self.servo = Servo()
+        self.camera = Camera()
 
     def move(self, distance, position='CIMA'):
         if self.parafusadeira.position != position:

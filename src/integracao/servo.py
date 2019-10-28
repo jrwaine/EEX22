@@ -10,7 +10,7 @@ class Servo():
     def __init__(self):
         print('Criando servo')
         self._pwm = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
-        self._pwm.start(MIN) 
+        self._pwm.start(0) 
         self.position = MIN
         
     def apertar(self, graus):
@@ -25,3 +25,5 @@ class Servo():
             self.position -= PASSO
             self._pwm.ChangeDutyCycle(self.position)
             time.sleep(.8)
+
+        self._pwm.ChangeDutyCycle(0)
