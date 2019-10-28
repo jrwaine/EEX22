@@ -34,5 +34,6 @@ class AGV():
 
     def stop(self):
         cf.resetGPIOs()
+        print('parando o agv')
         self.movimentation.stop()
         

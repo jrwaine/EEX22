@@ -73,6 +73,7 @@ class Movimentation():
 
     def stop(self):
         self.brake()
+        print('parando a movimentacao')
         self.encoder.stop()
         self.ultrassonico.stop()
 
