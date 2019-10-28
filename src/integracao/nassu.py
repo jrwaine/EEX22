@@ -1,4 +1,3 @@
-import config as cf
 from automaticGuidedVehicle import AGV
 
 try:
@@ -11,7 +10,7 @@ try:
     agv.apertar(90)
     agv.inicio()
     
-    cf.resetGPIOs()
-
+    agv.stop()
+    
 except KeyboardInterrupt:
-    cf.resetGPIOs()
+    agv.stop()

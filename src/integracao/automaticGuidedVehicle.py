@@ -1,3 +1,4 @@
+import config as cf
 from movimentation import Movimentation
 from parafusadeira import Parafusadeira
 from servo import Servo
@@ -30,3 +31,8 @@ class AGV():
 
     def verificar_parafuso(self):
         return self.camera.verificar()
+
+    def stop(self):
+        cf.resetGPIOs()
+        self.movimentation.stop()
+        
