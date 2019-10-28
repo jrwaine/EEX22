@@ -1,6 +1,5 @@
-import config as cf
 import RPi.GPIO as gpio
-import portDefines as pd
+import ports
 import time
 import threading
 
@@ -18,10 +17,9 @@ class Encoder(threading.Thread):
         self.start()
 
     def run(self):
-        cf.configGPIOs()
         while not self.stopped():
-            self.enc_a = gpio.input(pd.GPIO_PORT_IN_ENC_SIG1)
-            self.enc_b = gpio.input(pd.GPIO_PORT_IN_ENC_SIG2)
+            self.enc_a = gpio.input(ports.GPIO_PORT_IN_ENC_SIG1)
+            self.enc_b = gpio.input(ports.GPIO_PORT_IN_ENC_SIG2)
             time.sleep(0.001)
             if(self.enc_a == 1):
                 if(self.enc_b == 1):

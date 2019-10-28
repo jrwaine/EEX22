@@ -1,10 +1,7 @@
-import portDefines as pd
+import ports
 import RPi.GPIO as gpio
 import time
-
-CIMA = 1
-MEIO = 0
-BAIXO = -1
+import globals
 
 class Parafusadeira():
     def __init__(self, config=True):
@@ -24,47 +21,47 @@ class Parafusadeira():
             self.configured = True
 
     def metade(self):
-        if self.position == CIMA:
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
+        if self.position == globals.CIMA:
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
             
             if self.configured:
                 time.sleep(self.half_duration * .64)
             else:
                 time.sleep(1 * .64)
 
-        elif self.position == BAIXO:
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        elif self.position == globals.BAIXO:
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
             if self.configured:
                 time.sleep(self.half_duration * 1.36)
             else:
                 time.sleep(1 * 1.36)
         
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-        self.position = MEIO
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        self.position = globals.MEIO
 
     def subir(self):
-        while(gpio.input(pd.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH):
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-        self.position = CIMA
+        while(gpio.input(ports.GPIO_PORT_IN_FDC_UPPER) == gpio.HIGH):
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.HIGH)
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        self.position = globals.CIMA
 
     def descer(self):
-        while(gpio.input(pd.GPIO_PORT_IN_FDC_LOWER) == gpio.HIGH):
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-            gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
-        gpio.output(pd.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
-        self.position = BAIXO
+        while(gpio.input(ports.GPIO_PORT_IN_FDC_LOWER) == gpio.HIGH):
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH) #enable on
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+            gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.HIGH)
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.LOW) #enable on
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
+        gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG2, gpio.LOW)
+        self.position = globals.BAIXO
     

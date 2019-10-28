@@ -1,11 +1,8 @@
-import config as cf
 import RPi.GPIO as gpio
-import portDefines as pd
+import ports
 import time
 import threading
-
-CLOSE_OBJECT_DISTANCE = 10 #cm
-LIM_TIME = .5 #seg
+import globals
 class Ultrassonico(threading.Thread):
     def __init__(self):
         print('Criando ultrassonico')
@@ -16,19 +13,18 @@ class Ultrassonico(threading.Thread):
         self.start()
 
     def run(self):
-        cf.configGPIOs()
         while not self.stopped():
-            gpio.output(pd.GPIO_PORT_OUT_ULTR_TRIGG, True)
+            gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
             time.sleep(0.00001)
-            gpio.output(pd.GPIO_PORT_OUT_ULTR_TRIGG, False)
+            gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, False)
 
             pulse_end = 0
             pulse_start = 0
             start = time.time()
             stop = False
-            while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 0:
+            while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
                 pulse_start = time.time()
-            #     if(time.time()-start > LIM_TIME):
+            #     if(time.time()-start > globals.LIM_TIME):
             #         print('estorou tempo in')
             #         self.close_object = False
             #         stop = True
@@ -38,9 +34,9 @@ class Ultrassonico(threading.Thread):
             #     continue
             start = time.time()
 
-            while gpio.input(pd.GPIO_PORT_IN_ULTR_ECHO) == 1:
+            while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
                 pulse_end = time.time()
-            #     if(time.time()-start > LIM_TIME):
+            #     if(time.time()-start > globals.LIM_TIME):
             #         print('estorou tempo out')
             #         self.close_object = False
             #         stop = True
@@ -53,7 +49,7 @@ class Ultrassonico(threading.Thread):
 
             self.distance = round(pulse_duration * 17150, 2)
             
-            if self.distance < CLOSE_OBJECT_DISTANCE:
+            if self.distance < globals.CLOSE_OBJECT_DISTANCE:
                 self.close_object = True
                 print('tem perto ', self.distance)
             else:

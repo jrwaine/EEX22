@@ -1,19 +1,17 @@
-import portDefines as pd
+import ports
 import RPi.GPIO as gpio
 import time
-
-ON = 1
-OFF = 0
+import globals
 
 class Buzzer():
     def __init__(self):
         print('Criando buzzer')
-        self.state = OFF
+        self.state = globals.OFF
 
     def buzz_on(self):
-        gpio.output(pd.GPIO_PORT_OUT_BUZZER, gpio.HIGH)
-        self.state = ON
+        gpio.output(ports.GPIO_PORT_OUT_BUZZER, gpio.HIGH)
+        self.state = globals.ON
 
     def buzz_off(self):
-        gpio.output(pd.GPIO_PORT_OUT_BUZZER, gpio.LOW)
-        self.state = OFF
+        gpio.output(ports.GPIO_PORT_OUT_BUZZER, gpio.LOW)
+        self.state = globals.OFF

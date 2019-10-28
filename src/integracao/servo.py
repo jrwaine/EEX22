@@ -1,28 +1,25 @@
-import portDefines as pd
+import ports
 import RPi.GPIO as gpio
 import time
-
-MIN = 2
-MAX = 20
-PASSO = .2 # (MAX - MIN)/90
+import globals
 
 class Servo():
     def __init__(self):
         print('Criando servo')
-        self._pwm = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
+        self._pwm = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
         self._pwm.start(0) 
-        self.position = MIN
+        self.position = globals.MIN
         
     def apertar(self, graus):
-        while self.position != int(graus * PASSO) + MIN:
-            self.position += PASSO
-            if(self.position > MAX):
-                self.position = MIN
+        while self.position != int(graus * globals.PASSO) + globals.MIN:
+            self.position += globals.PASSO
+            if(self.position > globals.MAX):
+                self.position = globals.MIN
             self._pwm.ChangeDutyCycle(self.position)
             time.sleep(.8)
         
-        while self.position != MIN:
-            self.position -= PASSO
+        while self.position != globals.MIN:
+            self.position -= globals.PASSO
             self._pwm.ChangeDutyCycle(self.position)
             time.sleep(.8)
 

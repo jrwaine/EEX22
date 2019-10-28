@@ -1,8 +1,8 @@
 import RPi.GPIO as gpio
-import portDefines as pd
+import ports
 import time
 
-servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #50hz
+servo = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50) #50hz
 servo.start(0) 
 
 def moveServo(cont):

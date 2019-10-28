@@ -1,18 +1,15 @@
-import portDefines as pd
+import ports
 import RPi.GPIO as gpio
-
-ON = 1
-OFF = 0
-
+import globals
 class Led():
     def __init__(self):
         print('Criando led')
-        self.estado = OFF
+        self.estado = globals.OFF
         
     def acender(self):
-        gpio.output(pd.GPIO_PORT_OUT_LED, gpio.HIGH)
-        self.estado = ON        
+        gpio.output(ports.GPIO_PORT_OUT_LED, gpio.HIGH)
+        self.estado = globals.ON        
 
     def apagar(self):
-        gpio.output(pd.GPIO_PORT_OUT_LED, gpio.LOW)
-        self.estado = OFF   
+        gpio.output(ports.GPIO_PORT_OUT_LED, gpio.LOW)
+        self.estado = globals.OFF   

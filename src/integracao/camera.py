@@ -1,4 +1,4 @@
-import portDefines as pd
+import ports
 import RPi.GPIO as gpio
 from led import Led
 

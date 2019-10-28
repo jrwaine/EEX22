@@ -1,5 +1,5 @@
 import config as cf
-import portDefines as pd
+import ports
 import encoder as ec
 import RPi.GPIO as gpio
 import time
@@ -11,9 +11,9 @@ PASSO = 0.5
 
 def led_test_loop():
     time.sleep(0.5)
-    gpio.output(pd.GPIO_PORT_OUT_LED, gpio.HIGH)
+    gpio.output(ports.GPIO_PORT_OUT_LED, gpio.HIGH)
     time.sleep(0.5)
-    gpio.output(pd.GPIO_PORT_OUT_LED, gpio.LOW)
+    gpio.output(ports.GPIO_PORT_OUT_LED, gpio.LOW)
 
 def servo_test_loop(cont):
     print(cont)
@@ -32,9 +32,9 @@ def servo_test_loop(cont):
 
 try:
     cf.configGPIOs()
-    for x in pd.GPIO_PORTS_OUT:
+    for x in ports.GPIO_PORTS_OUT:
         gpio.output(x, gpio.LOW)
-    servo = gpio.PWM(pd.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
+    servo = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
     servo.start(5) 
     cont_buzzer = 0
     cont_servo = MIN
@@ -50,6 +50,6 @@ try:
 
 
 except KeyboardInterrupt:
-    for x in pd.GPIO_PORTS_OUT:
+    for x in ports.GPIO_PORTS_OUT:
         gpio.output(x, gpio.LOW)
     cf.resetGPIOs()
