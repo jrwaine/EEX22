@@ -39,12 +39,14 @@ class Encoder(threading.Thread):
                     elif(self.last_state == 1):
                         self.position += 1
                 self.last_state = self.curr_state
+        print('parou a thread do encoder')
 
     def data(self):
         return self.position
 
     def stop(self):
         self._stop_event.set()
+        print('tentado parar a thread do encoder')
 
     def stopped(self):
         return self._stop_event.isSet()

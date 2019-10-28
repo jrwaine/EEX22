@@ -58,6 +58,7 @@ class Ultrassonico(threading.Thread):
                 self.close_object = False
 
             time.sleep(.01)
+        print('parou a thread do ultra')
 
     def data(self):
         return self.distance
@@ -67,6 +68,7 @@ class Ultrassonico(threading.Thread):
     
     def stop(self):
         self._stop_event.set()
+        print('tentando parar a thread do ultra')
 
     def stopped(self):
         return self._stop_event.isSet()
