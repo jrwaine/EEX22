@@ -1,3 +1,4 @@
+import config
 from automaticGuidedVehicle import AGV
 
 try:
