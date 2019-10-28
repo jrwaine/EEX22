@@ -3,8 +3,8 @@ from automaticGuidedVehicle import AGV
 try:
     agv = AGV()
 
-    agv.parafusadeira.subir()
-    # agv.move(25, 'CIMA')
+    agv.movimentation.brake()
+    # agv.move(a25, 'CIMA')
     # agv.apertar(agv.verificar_parafuso())
     # agv.move(10)
     # agv.move(25, 'MEIO')
