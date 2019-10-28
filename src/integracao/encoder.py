@@ -14,7 +14,7 @@ class Encoder(threading.Thread):
         self.last_b = 1
         self.curr_state = [i for i in range(0, len(self.state)) if self.state[i] == (self.last_a, self.last_b)][0]
         self.last_state = self.curr_state
-        # self.start()
+        self.start()
 
     def run(self):
         print('iniciando thread encoder')

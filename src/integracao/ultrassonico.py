@@ -10,7 +10,7 @@ class Ultrassonico(threading.Thread):
         self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        # self.start()
+        self.start()
 
     def run(self):
         print('Iniciando thread ultrassonico')
