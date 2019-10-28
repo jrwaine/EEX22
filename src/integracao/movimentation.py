@@ -81,7 +81,7 @@ class Movimentation():
     def restart(self):
         print('restartando todas as threads para movimentacao')
         if self.encoder.stopped() == True:
-            self.encoder.start()
+            self.encoder.run()
         
         if self.ultrassonico.stopped() == True:
-            self.ultrassonico.start()
+            self.ultrassonico.run()
