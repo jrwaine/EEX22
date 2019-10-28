@@ -70,6 +70,7 @@ class Movimentation():
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(pd.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
         gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
+        print('parou')
 
     def stop(self):
         self.brake()
