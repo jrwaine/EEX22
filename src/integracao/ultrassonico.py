@@ -1,3 +1,4 @@
+import config as cf
 import RPi.GPIO as gpio
 import portDefines as pd
 import time
@@ -15,6 +16,7 @@ class Ultrassonico(threading.Thread):
         self.start()
 
     def run(self):
+        cf.configGPIOs()
         while not self.stopped():
             gpio.output(pd.GPIO_PORT_OUT_ULTR_TRIGG, True)
             time.sleep(0.00001)
