@@ -45,7 +45,7 @@ class Movimentation():
                 gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
                 time.sleep(.050)  
 
-        self.brake()
+        # self.brake()
 
     def inicio(self):
         self.restart()
@@ -59,7 +59,7 @@ class Movimentation():
             gpio.output(pd.GPIO_PORT_OUT_AGV_EN_PWM, gpio.LOW)
             time.sleep(.050) 
         
-        self.brake()
+        # self.brake()
 
     def brake(self):
         print("Parando..")
@@ -73,7 +73,7 @@ class Movimentation():
         print('parou')
 
     def stop(self):
-        self.brake()
+        # self.brake()
         print('parando a movimentacao')
         self.encoder.stop()
         self.ultrassonico.stop()
