@@ -6,7 +6,7 @@ from camera import Camera
 
 class AGV():
     def __init__(self):
-        self.parafusadeira = Parafusadeira()
+        self.parafusadeira = Parafusadeira(False)
         self.movimentation = Movimentation()
         self.servo = Servo()
         self.camera = Camera()
