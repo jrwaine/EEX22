@@ -1,5 +1,5 @@
 import ports
-# import RPi.GPIO as gpio
+import RPi.GPIO as gpio
 import globals
 class Led():
     def __init__(self):
@@ -8,10 +8,10 @@ class Led():
         
     def acender(self):
         print('acendendo led')
-        # gpio.output(ports.GPIO_PORT_OUT_LED, gpio.HIGH)
+        gpio.output(ports.GPIO_PORT_OUT_LED, gpio.HIGH)
         self.estado = globals.ON        
 
     def apagar(self):
         print('apagando led')
-        # gpio.output(ports.GPIO_PORT_OUT_LED, gpio.LOW)
+        gpio.output(ports.GPIO_PORT_OUT_LED, gpio.LOW)
         self.estado = globals.OFF   

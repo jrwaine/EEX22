@@ -1,4 +1,4 @@
-# import RPi.GPIO as gpio
+import RPi.GPIO as gpio
 import ports
 import time
 import threading
@@ -13,46 +13,46 @@ class Ultrassonico(threading.Thread):
         # self.start()
 
     def readUltrassonico(self):
-        # gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
-        # time.sleep(0.00001)
-        # gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, False)
+        gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
+        time.sleep(0.00001)
+        gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, False)
 
-        # pulse_end = 0
-        # pulse_start = 0
-        # start = time.time()
-        # stop = False
-        # while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
-        #     pulse_start = time.time()
-        # #     if(time.time()-start > globals.LIM_TIME):
-        # #         print('estorou tempo in')
-        # #         self.close_object = False
-        # #         stop = True
-        # #         continue
+        pulse_end = 0
+        pulse_start = 0
+        start = time.time()
+        stop = False
+        while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
+            pulse_start = time.time()
+        #     if(time.time()-start > globals.LIM_TIME):
+        #         print('estorou tempo in')
+        #         self.close_object = False
+        #         stop = True
+        #         continue
         
-        # # if(stop):
-        # #     continue
-        # start = time.time()
+        # if(stop):
+        #     continue
+        start = time.time()
 
-        # while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
-        #     pulse_end = time.time()
-        # #     if(time.time()-start > globals.LIM_TIME):
-        # #         print('estorou tempo out')
-        # #         self.close_object = False
-        # #         stop = True
-        # #         continue
+        while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
+            pulse_end = time.time()
+        #     if(time.time()-start > globals.LIM_TIME):
+        #         print('estorou tempo out')
+        #         self.close_object = False
+        #         stop = True
+        #         continue
         
-        # # if(stop):
-        # #     continue
+        # if(stop):
+        #     continue
         
-        # pulse_duration = pulse_end - pulse_start
+        pulse_duration = pulse_end - pulse_start
 
-        # self.distance = round(pulse_duration * 17150, 2)
+        self.distance = round(pulse_duration * 17150, 2)
         
-        # if self.distance < globals.CLOSE_OBJECT_DISTANCE:
-        #     self.close_object = True
-        #     print('tem perto ', self.distance)
-        # else:
-        #     self.close_object = False
+        if self.distance < globals.CLOSE_OBJECT_DISTANCE:
+            self.close_object = True
+            print('tem perto ', self.distance)
+        else:
+            self.close_object = False
 
         time.sleep(.01)
 
