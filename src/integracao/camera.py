@@ -1,5 +1,5 @@
 import ports
-import RPi.GPIO as gpio
+# import RPi.GPIO as gpio
 from led import Led
 
 class Camera():
@@ -8,8 +8,8 @@ class Camera():
         self.led = Led()
         
     def verificar(self):
-        print('processando imagem')
         self.led.acender()
+        print('processando imagem')
 
         # processar imagem
 

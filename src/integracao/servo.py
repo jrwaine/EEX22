@@ -1,13 +1,13 @@
+# import RPi.GPIO as gpio
 import ports
-import RPi.GPIO as gpio
 import time
 import globals
 
 class Servo():
     def __init__(self):
         print('Criando servo')
-        self._pwm = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
-        self._pwm.start(0) 
+        # self._pwm = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50) #20ms
+        # self._pwm.start(0) 
         self.position = globals.MIN
         
     def apertar(self, graus):

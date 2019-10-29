@@ -1,4 +1,4 @@
-import config as cf
+# import config as cf
 from movimentation import Movimentation
 from parafusadeira import Parafusadeira
 from servo import Servo
@@ -33,7 +33,7 @@ class AGV():
         return self.camera.verificar()
 
     def stop(self):
-        cf.resetGPIOs()
+        # cf.resetGPIOs()
         print('parando o agv')
         self.movimentation.stop()
         
