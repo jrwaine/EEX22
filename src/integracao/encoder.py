@@ -8,6 +8,7 @@ class Encoder(threading.Thread):
         print('Criando encoder')
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
+        self._first_execution = True
         self.position = 0
         self.state = [(1, 1), (0, 1), (0, 0), (1, 0)]
         self.last_a = 1
@@ -15,6 +16,7 @@ class Encoder(threading.Thread):
         self.curr_state = [i for i in range(0, len(self.state)) if self.state[i] == (self.last_a, self.last_b)][0]
         self.last_state = self.curr_state
         self.start()
+
 
     def readEncoder(self):
         # print('encoder', self.position)
@@ -46,11 +48,16 @@ class Encoder(threading.Thread):
         #     self.start()
         # except:
         #     pass
-        print('iniciando thread encoder')
-        while not self.stopped():
+        if not self._first_execution:
+            print('iniciando thread encoder')
+        else:
+            print('startou a thread do ultra')
+        while not self.stopped() and not self._first_execution:
             self.readEncoder()
+        if not self._first_execution:
+            print('parou a thread do encoder', self.stopped())
+        self._first_execution = False
         self._stop_event.clear()
-        print('parou a thread do encoder', self.stopped())
 
     def data(self):
         return self.position

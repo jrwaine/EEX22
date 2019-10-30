@@ -10,7 +10,8 @@ class Ultrassonico(threading.Thread):
         self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        # self.start()
+        self._first_execution = False
+        self.start()
 
     def readUltrassonico(self):
         gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
@@ -53,24 +54,29 @@ class Ultrassonico(threading.Thread):
 
         self.distance = round(pulse_duration * 17150, 2)
         
-        if True:#self.distance < globals.CLOSE_OBJECT_DISTANCE:
+        if self.distance < globals.CLOSE_OBJECT_DISTANCE and self.distance > 0:
             self.close_object = True
             print('tem perto ', self.distance)
         else:
             self.close_object = False
 
-        time.sleep(1)
+        time.sleep(0.5)
 
     def run(self):
         # try:
         #     self.start()
         # except:
         #     pass
-        print('Iniciando thread ultrassonico')
-        while not self.stopped():
+        if not self._first_execution:
+            print('Iniciando thread ultrassonico')
+        else:
+            print('startou a thread do ultra')
+        while not self.stopped() and not self._first_execution:
             self.readUltrassonico()
+        if not self._first_execution:
+            print('parou a thread do ultra', self.stopped())
         self._stop_event.clear()
-        print('parou a thread do ultra', self.stopped())
+        self._first_execution = False
 
     def data(self):
         return self.distance
