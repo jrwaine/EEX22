@@ -66,7 +66,7 @@ class Ultrassonico(threading.Thread):
         while not self.stopped():
             self.readUltrassonico()
         self._stop_event.clear()
-        print('parou a thread do ultra')
+        print('parou a thread do ultra', self.stopped())
 
     def data(self):
         return self.distance

@@ -50,7 +50,7 @@ class Encoder(threading.Thread):
         while not self.stopped():
             self.readEncoder()
         self._stop_event.clear()
-        print('parou a thread do encoder')
+        print('parou a thread do encoder', self.stopped())
 
     def data(self):
         return self.position
