@@ -67,7 +67,6 @@ class Ultrassonico(threading.Thread):
         #     self.start()
         # except:
         #     pass
-        print('stop_event', self.stopped())
         if not self._first_execution:
             print('Iniciando thread ultrassonico')
         else:
