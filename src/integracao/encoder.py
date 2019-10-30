@@ -17,7 +17,7 @@ class Encoder(threading.Thread):
         self.start()
 
     def readEncoder(self):
-        print('encoder', self.position)
+        # print('encoder', self.position)
         self.enc_a = gpio.input(ports.GPIO_PORT_IN_ENC_SIG1)
         self.enc_b = gpio.input(ports.GPIO_PORT_IN_ENC_SIG2)
         time.sleep(0.001)
