@@ -10,7 +10,7 @@ class Ultrassonico(threading.Thread):
         self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        self.start()
+        # self.start()
 
     def readUltrassonico(self):
         gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
