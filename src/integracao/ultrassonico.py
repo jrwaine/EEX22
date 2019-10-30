@@ -23,6 +23,8 @@ class Ultrassonico(threading.Thread):
         stop = False
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
             pulse_start = time.time()
+            if self.stopped():
+                return
         #     if(time.time()-start > globals.LIM_TIME):
         #         print('estorou tempo in')
         #         self.close_object = False
@@ -36,6 +38,8 @@ class Ultrassonico(threading.Thread):
 
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
             pulse_end = time.time()
+            if self.stopped():
+                return
         #     if(time.time()-start > globals.LIM_TIME):
         #         print('estorou tempo out')
         #         self.close_object = False
