@@ -6,6 +6,7 @@ try:
     # agv = AGV()
 
     ultra = Ultrassonico()
+    print('kk ear ', ultra.is_alive())
     ultra.run()
 
     # for i in range(3):
