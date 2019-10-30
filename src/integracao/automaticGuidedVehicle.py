@@ -1,4 +1,4 @@
-# import config as cf
+import config as cf
 from movimentation import Movimentation
 from parafusadeira import Parafusadeira
 from servo import Servo
@@ -6,7 +6,7 @@ from camera import Camera
 
 class AGV():
     def __init__(self):
-        self.parafusadeira = Parafusadeira(False)
+        self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
         self.servo = Servo()
         self.camera = Camera()
@@ -33,7 +33,7 @@ class AGV():
         return self.camera.verificar()
 
     def stop(self):
-        # cf.resetGPIOs()
         print('parando o agv')
-        self.movimentation.stop()
+        self.movimentation.kill_threads()
+        cf.resetGPIOs()
         

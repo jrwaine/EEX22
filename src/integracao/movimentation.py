@@ -84,3 +84,7 @@ class Movimentation():
         print('restartando as leituras para movimentacao')
         self.encoder.restart()
         self.ultrassonico.restart()
+    
+    def kill_threads(self):
+        self.encoder.kill_thread()
+        self.ultrassonico.kill_thread()
