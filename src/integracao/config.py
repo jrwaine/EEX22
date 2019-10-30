@@ -2,6 +2,7 @@ import ports
 import RPi.GPIO as gpio
 
 def configGPIOs():
+    print('\nConfigurando a Raspberry...')
     gpio.setmode(gpio.BOARD)
     
     # out GPIO
@@ -20,13 +21,13 @@ def configGPIOs():
     # ultrassonico
     gpio.setup(ports.GPIO_PORT_IN_ULTR_ECHO, gpio.IN)
 
-    print('Raspberry configurada')
+    print('Raspberry configurada!\n')
 
 def resetGPIOs():
+    print('Limpando os pinos da Raspberry...\n')
     for port in ports.GPIO_PORTS_OUT:
         gpio.output(port, gpio.LOW)
     gpio.cleanup()
-
-    print('Raspberry cleanup')
+    print('Pinos da Raspberry limpos!\n')
 
 configGPIOs()

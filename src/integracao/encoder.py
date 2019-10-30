@@ -5,7 +5,7 @@ import threading
 
 class Encoder(threading.Thread):
     def __init__(self):
-        print('Criando encoder')
+        print('Criando encoder...')
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
         self._kill_self = False
@@ -41,11 +41,12 @@ class Encoder(threading.Thread):
             self.last_state = self.curr_state
 
     def run(self):
-        print('iniciando thread encoder')
+        print('\nIniciando thread encoder...')
+        print('Thread encoder iniciada!\n')
         while not self._kill_self:
             if not self.stopped():
                 self.readEncoder()
-        print('fim da thread do encoder')
+        print('Fim da thread do encoder!')
 
     def data(self):
         return self.position
@@ -55,7 +56,8 @@ class Encoder(threading.Thread):
 
     def stop(self):
         self._stop_event.set()
-        print('parando a leitura do encoder')
+        print('\nParando a leitura do encoder...')
+        print('Leitura do encoder parada!\n')
 
     def stopped(self):
         return self._stop_event.is_set()

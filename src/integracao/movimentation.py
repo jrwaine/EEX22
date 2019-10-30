@@ -12,42 +12,30 @@ class Movimentation():
         self.ultrassonico = Ultrassonico()
         self.buzzer = Buzzer()
 
-    def move(self, distance):
-        print('vai mover')
-        self.restart()
 
-        if distance >= 0:
-            gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
-            gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
-        else:
-            distance += 3
-            gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
-            gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
+    def move(self, distance):
+        self._restart_threads()
 
         initial_position = self.encoder.data()
 
-        if distance >= 0:
-            while self.encoder.data() < distance + initial_position:
-                if self.ultrassonico.check_can_move():
-                    self.buzzer.buzz_off()
-                    gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
-                    time.sleep(.050)    
-                    gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.LOW)
-                    time.sleep(.050)  
-                else:
-                    self.buzzer.buzz_on()
-        else:
-            while self.encoder.data() > distance + initial_position:
+        gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
+        gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
+        while self.encoder.data() < distance + initial_position:
+            if self.ultrassonico.check_can_move():
+                self.buzzer.buzz_off()
                 gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
                 time.sleep(.050)    
                 gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.LOW)
                 time.sleep(.050)  
+            else:
+                self.buzzer.buzz_on()
 
         self.brake()
 
+
     def inicio(self):
-        print('voltando para o inicio')
-        self.restart()
+        print('\nVoltando o AGV para a posicao de inicio...')
+        self._restart_threads()
         
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
@@ -59,10 +47,11 @@ class Movimentation():
             time.sleep(.050) 
         
         self.brake()
-        print('ta no inicio')
+        print('AGV na posicao de inicio!\n')
+
 
     def brake(self):
-        print("Freiando..")
+        print("\nFreiando...")
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
         gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
@@ -70,19 +59,24 @@ class Movimentation():
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
         gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.LOW)
-        print("Freiou..")
+        print("Freiou!\n")
+
 
     def stop(self):
         self.brake()
-        print('parando as leituras paralelas de movimentacao')
+        print('\nParando as leituras paralelas de movimentacao...')
         self.encoder.stop()
         self.ultrassonico.stop()
+        print('Leituras paralelas paradas!\n')
 
-    def restart(self):
-        print('restartando as leituras para movimentacao')
+
+    def _restart_threads(self):
+        print('\nReiniciando as leituras paralelas para movimentacao...')
         self.encoder.restart()
         self.ultrassonico.restart()
+        print('Leituras paralelas reiniciadas!\n')
     
+
     def kill_threads(self):
         self.encoder.kill_thread()
         self.ultrassonico.kill_thread()

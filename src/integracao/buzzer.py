@@ -5,7 +5,7 @@ import globals
 
 class Buzzer():
     def __init__(self):
-        print('Criando buzzer')
+        print('Criando buzzer...')
         self.state = globals.OFF
 
     def buzz_on(self):
