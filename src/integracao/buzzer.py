@@ -3,9 +3,10 @@ import RPi.GPIO as gpio
 import time
 import globals
 
-class Buzzer():
+
+class Buzzer:
     def __init__(self):
-        print('Criando buzzer...')
+        print("Criando buzzer...")
         self.state = globals.OFF
 
     def buzz_on(self):

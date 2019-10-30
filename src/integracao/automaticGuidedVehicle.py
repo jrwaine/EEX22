@@ -5,9 +5,10 @@ from servo import Servo
 from camera import Camera
 import globals
 
-class AGV():
+
+class AGV:
     def __init__(self):
-        print('Criando o AGV...')
+        print("Criando o AGV...")
         self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
         self.servo = Servo()
@@ -34,8 +35,7 @@ class AGV():
         return self.camera.verificar()
 
     def kill(self):
-        print('\nEncerrando as atividades do AGV ...')
+        print("\nEncerrando as atividades do AGV ...")
         self.movimentation.kill_threads()
         cf.resetGPIOs()
-        print('Atividade do AGV encerradas!\n')
-        
+        print("Atividade do AGV encerradas!\n")
