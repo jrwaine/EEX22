@@ -47,7 +47,7 @@ class Ultrassonico(threading.Thread):
         
         pulse_duration = pulse_end - pulse_start
 
-        self.distance = round(pulse_duration * 17150, 2)/2
+        self.distance = round(pulse_duration * 17150, 2)
         
         if self.distance < globals.CLOSE_OBJECT_DISTANCE and self.distance > 0:
             self.close_object = True
@@ -55,7 +55,7 @@ class Ultrassonico(threading.Thread):
         else:
             self.close_object = False
 
-        time.sleep(.01)
+        time.sleep(.5)
 
     def run(self):
         # try:
