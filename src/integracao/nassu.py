@@ -8,6 +8,8 @@ try:
     ultra = Ultrassonico()
     print('kk ear ', ultra.is_alive())
     ultra.run()
+    while True:
+        print('oioi')
 
     # for i in range(3):
     #     agv.movimentation.brake()
