@@ -8,6 +8,7 @@ class Encoder(threading.Thread):
         print('Criando encoder')
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
+        self._kill_self = False
         self.position = 0
         self.state = [(1, 1), (0, 1), (0, 0), (1, 0)]
         self.last_a = 1
@@ -41,7 +42,7 @@ class Encoder(threading.Thread):
 
     def run(self):
         print('iniciando thread encoder')
-        while True:
+        while not self._kill_self:
             if not self.stopped():
                 self.readEncoder()
         print('fim da thread do encoder')
@@ -58,3 +59,6 @@ class Encoder(threading.Thread):
 
     def stopped(self):
         return self._stop_event.is_set()
+    
+    def kill_thread(self):
+        self._kill_self = True

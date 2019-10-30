@@ -8,6 +8,7 @@ class Ultrassonico(threading.Thread):
         print('Criando ultrassonico')
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
+        self._kill_self = False
         self.distance = None
         self.close_object = None
         self.start()
@@ -63,7 +64,7 @@ class Ultrassonico(threading.Thread):
 
     def run(self):
         print('Iniciando thread ultrassonico')
-        while True:
+        while not self._kill_self:
             if not self.stopped():
                 self.readUltrassonico()
         
@@ -81,6 +82,9 @@ class Ultrassonico(threading.Thread):
     def stop(self):
         self._stop_event.set()
         print('parando a leitura do ultra')
+    
+    def kill_thread(self):
+        self._kill_self = True
 
     def stopped(self):
         return self._stop_event.is_set()
