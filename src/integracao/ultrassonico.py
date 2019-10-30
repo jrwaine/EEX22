@@ -23,33 +23,33 @@ class Ultrassonico(threading.Thread):
         stop = False
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
             pulse_start = time.time()
-            if(time.time()-start > globals.LIM_TIME):
-                print('estorou tempo in')
-                self.close_object = False
-                stop = True
-                continue
+        #     if(time.time()-start > globals.LIM_TIME):
+        #         print('estorou tempo in')
+        #         self.close_object = False
+        #         stop = True
+        #         continue
         
-        if(stop):
-            return
+        # if(stop):
+        #     return
 
         start = time.time()
 
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
             pulse_end = time.time()
-            if(time.time()-start > globals.LIM_TIME):
-                print('estorou tempo out')
-                self.close_object = False
-                stop = True
-                continue
+        #     if(time.time()-start > globals.LIM_TIME):
+        #         print('estorou tempo out')
+        #         self.close_object = False
+        #         stop = True
+        #         continue
         
-        if(stop):
-            return
+        # if(stop):
+        #     return
         
         pulse_duration = pulse_end - pulse_start
 
         self.distance = round(pulse_duration * 17150, 2)
         
-        if self.distance < globals.CLOSE_OBJECT_DISTANCE:
+        if self.distance < globals.CLOSE_OBJECT_DISTANCE and self.distance != 0:
             self.close_object = True
             print('tem perto ', self.distance)
         else:
