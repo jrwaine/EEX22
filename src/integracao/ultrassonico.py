@@ -65,6 +65,7 @@ class Ultrassonico(threading.Thread):
         print('Iniciando thread ultrassonico')
         while not self.stopped():
             self.readUltrassonico()
+        self._stop_event.clear()
         print('parou a thread do ultra')
 
     def data(self):

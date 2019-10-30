@@ -49,6 +49,7 @@ class Encoder(threading.Thread):
         print('iniciando thread encoder')
         while not self.stopped():
             self.readEncoder()
+        self._stop_event.clear()
         print('parou a thread do encoder')
 
     def data(self):
