@@ -54,10 +54,10 @@ class Encoder(threading.Thread):
             print('startou a thread do ultra')
         while not self.stopped() and not self._first_execution:
             self.readEncoder()
-        self._first_execution = False
-        self._stop_event.clear()
         if not self._first_execution:
             print('parou a thread do encoder', self.stopped())
+        self._first_execution = False
+        self._stop_event.clear()
 
     def data(self):
         return self.position

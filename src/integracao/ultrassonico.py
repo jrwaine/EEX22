@@ -73,10 +73,10 @@ class Ultrassonico(threading.Thread):
             print('startou a thread do ultra')
         while not self.stopped() and not self._first_execution:
             self.readUltrassonico()
-        self._first_execution = False
-        self._stop_event.clear()
         if not self._first_execution:
             print('parou a thread do ultra', self.stopped())
+        self._stop_event.clear()
+        self._first_execution = False
 
     def data(self):
         return self.distance
