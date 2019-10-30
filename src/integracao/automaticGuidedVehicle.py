@@ -23,7 +23,7 @@ class AGV():
         self.movimentation.stop()
         self.parafusadeira.descer()
         self.servo.apertar(graus)
-        print('Apertou ', graus, ' graus')
+        print('Apertou', graus, 'graus')
 
     def inicio(self):
         self.parafusadeira.subir()

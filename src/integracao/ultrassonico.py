@@ -19,10 +19,12 @@ class Ultrassonico(threading.Thread):
 
         pulse_end = 0
         pulse_start = 0
-        start = time.time()
-        stop = False
+        # start = time.time()
+        # stop = False
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 0:
             pulse_start = time.time()
+            if self.stopped():
+                return
         #     if(time.time()-start > globals.LIM_TIME):
         #         print('estorou tempo in')
         #         self.close_object = False
@@ -30,11 +32,14 @@ class Ultrassonico(threading.Thread):
         #         continue
         
         # if(stop):
-        #     continue
-        start = time.time()
+        #     return
+
+        # start = time.time()
 
         while gpio.input(ports.GPIO_PORT_IN_ULTR_ECHO) == 1:
             pulse_end = time.time()
+            if self.stopped():
+                return
         #     if(time.time()-start > globals.LIM_TIME):
         #         print('estorou tempo out')
         #         self.close_object = False
@@ -42,30 +47,30 @@ class Ultrassonico(threading.Thread):
         #         continue
         
         # if(stop):
-        #     continue
+        #     return
         
         pulse_duration = pulse_end - pulse_start
 
         self.distance = round(pulse_duration * 17150, 2)
         
-        if self.distance < globals.CLOSE_OBJECT_DISTANCE:
+        if True:#self.distance < globals.CLOSE_OBJECT_DISTANCE:
             self.close_object = True
             print('tem perto ', self.distance)
         else:
             self.close_object = False
 
-        time.sleep(.01)
+        time.sleep(1)
 
     def run(self):
-        try:
-            self.start()
-        except:
-            pass
+        # try:
+        #     self.start()
+        # except:
+        #     pass
         print('Iniciando thread ultrassonico')
         while not self.stopped():
             self.readUltrassonico()
-            pass
-        print('parou a thread do ultra')
+        self._stop_event.clear()
+        print('parou a thread do ultra', self.stopped())
 
     def data(self):
         return self.distance
