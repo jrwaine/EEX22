@@ -7,7 +7,7 @@ try:
 
     ultra = Ultrassonico()
     print('kk ear ', ultra.is_alive())
-    ultra.run()
+    ultra.start()
     while True:
         print('oioi')
 
