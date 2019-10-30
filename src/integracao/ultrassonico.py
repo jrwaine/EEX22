@@ -59,7 +59,7 @@ class Ultrassonico(threading.Thread):
         else:
             self.close_object = False
 
-        time.sleep(.5)
+        time.sleep(1)
 
     def run(self):
         # try:
