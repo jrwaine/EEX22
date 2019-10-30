@@ -47,9 +47,9 @@ class Ultrassonico(threading.Thread):
         
         pulse_duration = pulse_end - pulse_start
 
-        self.distance = round(pulse_duration * 17150, 2)
+        self.distance = round(pulse_duration * 17150, 2)/2
         
-        if self.distance < globals.CLOSE_OBJECT_DISTANCE and self.distance != 0:
+        if self.distance < globals.CLOSE_OBJECT_DISTANCE and self.distance > 0:
             self.close_object = True
             print('tem perto ', self.distance)
         else:
