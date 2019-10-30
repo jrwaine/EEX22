@@ -8,7 +8,6 @@ class Encoder(threading.Thread):
         print('Criando encoder')
         threading.Thread.__init__(self)
         self._stop_event = threading.Event()
-        self._first_execution = True
         self.position = 0
         self.state = [(1, 1), (0, 1), (0, 0), (1, 0)]
         self.last_a = 1
@@ -17,9 +16,7 @@ class Encoder(threading.Thread):
         self.last_state = self.curr_state
         self.start()
 
-
     def readEncoder(self):
-        # print('encoder', self.position)
         self.enc_a = gpio.input(ports.GPIO_PORT_IN_ENC_SIG1)
         self.enc_b = gpio.input(ports.GPIO_PORT_IN_ENC_SIG2)
         time.sleep(0.001)
@@ -41,30 +38,23 @@ class Encoder(threading.Thread):
                 elif(self.last_state == 1):
                     self.position += 1
             self.last_state = self.curr_state
-        
 
     def run(self):
-        # try:
-        #     self.start()
-        # except:
-        #     pass
-        if not self._first_execution:
-            print('iniciando thread encoder')
-        else:
-            print('startou a thread do ultra')
-        while not self.stopped() and not self._first_execution:
-            self.readEncoder()
-        if not self._first_execution:
-            print('parou a thread do encoder', self.stopped())
-        self._first_execution = False
-        self._stop_event.clear()
+        print('iniciando thread encoder')
+        while True:
+            if not self.stopped():
+                self.readEncoder()
+        print('fim da thread do encoder')
 
     def data(self):
         return self.position
 
+    def restart(self):
+        self._stop_event.clear()
+
     def stop(self):
         self._stop_event.set()
-        print('tentado parar a thread do encoder')
+        print('parando a leitura do encoder')
 
     def stopped(self):
         return self._stop_event.is_set()

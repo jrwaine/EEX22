@@ -74,14 +74,11 @@ class Movimentation():
 
     def stop(self):
         self.brake()
-        print('parando as threads de movimentacao')
+        print('parando as leituras paralelas de movimentacao')
         self.encoder.stop()
         self.ultrassonico.stop()
 
     def restart(self):
-        print('restartando todas as threads para movimentacao')
-        if self.encoder.stopped() == True:
-            self.encoder.run()
-        
-        if self.ultrassonico.stopped() == True:
-            self.ultrassonico.run()
+        print('restartando as leituras para movimentacao')
+        self.encoder.restart()
+        self.ultrassonico.restart()

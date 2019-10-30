@@ -10,7 +10,6 @@ class Ultrassonico(threading.Thread):
         self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        self._first_execution = False
         self.start()
 
     def readUltrassonico(self):
@@ -63,30 +62,25 @@ class Ultrassonico(threading.Thread):
         time.sleep(0.5)
 
     def run(self):
-        # try:
-        #     self.start()
-        # except:
-        #     pass
-        if not self._first_execution:
-            print('Iniciando thread ultrassonico')
-        else:
-            print('startou a thread do ultra')
-        while not self.stopped() and not self._first_execution:
-            self.readUltrassonico()
-        if not self._first_execution:
-            print('parou a thread do ultra', self.stopped())
-        self._stop_event.clear()
-        self._first_execution = False
+        print('Iniciando thread ultrassonico')
+        while True:
+            if not self.stopped():
+                self.readUltrassonico()
+        
+        print('fim da thread do ultra')
 
     def data(self):
         return self.distance
+
+    def restart(self):
+        self._stop_event.clear()
     
     def check_can_move(self):
         return not self.close_object
     
     def stop(self):
         self._stop_event.set()
-        print('tentando parar a thread do ultra')
+        print('parando a leitura do ultra')
 
     def stopped(self):
         return self._stop_event.is_set()
