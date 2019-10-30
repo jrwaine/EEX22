@@ -1,6 +1,7 @@
 import config
 from automaticGuidedVehicle import AGV
 from ultrassonico import Ultrassonico
+import time
 
 try:
     # agv = AGV()
@@ -9,6 +10,7 @@ try:
     print('kk ear ', ultra.is_alive())
     while True:
         print('oioi')
+        time.sleep(1)
 
     # for i in range(3):
     #     agv.movimentation.brake()
