@@ -10,7 +10,7 @@ class Ultrassonico(threading.Thread):
         self._stop_event = threading.Event()
         self.distance = None
         self.close_object = None
-        self._first_execution = True
+        self._first_execution = False
         self.start()
 
     def readUltrassonico(self):
