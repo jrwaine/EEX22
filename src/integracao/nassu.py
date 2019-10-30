@@ -6,7 +6,6 @@ try:
     # agv = AGV()
 
     ultra = Ultrassonico()
-    ultra.run()
 
     # for i in range(3):
     #     agv.movimentation.brake()
