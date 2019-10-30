@@ -59,8 +59,6 @@ class Movimentation():
             time.sleep(.050) 
         
         self.brake()
-        self.encoder.kill_thread()
-        self.ultrassonico.kill_thread()
         print('ta no inicio')
 
     def brake(self):

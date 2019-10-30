@@ -12,7 +12,7 @@ try:
     #     print('oioi')
     #     time.sleep(1)
 
-    agv.move(18, 'MEIO')
+    agv.move(20, 'MEIO')
     agv.apertar(agv.verificar_parafuso())
     agv.move(10)
     agv.move(25, 'MEIO')
