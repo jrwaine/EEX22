@@ -1,76 +1,56 @@
-#!/usr/bin/python
-
-import pigpio
+import sys
+import urllib2
+import RPi.GPIO as GPIO
 import time
-import thread
 
-SERVO1_PIN = 24
-# SERVO2_PIN = 17
+srvPin = 3
 
-LEFT = 600
-RIGHT = 2400
-CENTER = LEFT + ((RIGHT - LEFT)/2)
+fLocked = True
 
-STEP=20
-SLEEP=0.01
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(srvPin, GPIO.OUT)
+pwm = GPIO.PWM(srvPin, 50)
+pwm.start(0)
 
-pigpio.start()
+def lock(ev=None):
+	global fLocked
+	print('locking fLocked=',fLocked)
+	if fLocked == False:
+		# lock device
+		setAngle(110)
+		fLocked = True
+		print('device locked')
+	elif fLocked == True:
+		print('device already locked')
 
-print("LEFT: %d" % LEFT)
-print("RIGHT: %d" % RIGHT)
-print("CENTER: %d" % CENTER)
+def unlock(ev=None):
+	global fLocked
+	print('unlocking fLocked=', fLocked)
+	if fLocked == True:
+		# unlock device
+		setAngle(15)
+		fLocked = False
+		print('device unlocked')
+	elif fLocked == False:
+		print('device already unlocked')
 
-def init_servo(pin):
-    pigpio.set_PWM_frequency(pin, 50) # 50Hz pulses
-    pigpio.set_PWM_range(pin, 20000) # 1,000,000 / 50 = 20,000us for 100% duty cycle
-    move_servo(pin, CENTER, 5)
+def setAngle(angle):
+	duty = angle / 18 + 2
+	GPIO.output(srvPin, True)
+	pwm.ChangeDutyCycle(duty)
+	time.sleep(0.5)
+	GPIO.output(srvPin, False)
+	pwm.ChangeDutyCycle(0)
 
+def destroy():
+    pwm.stop()
+    GPIO.cleanup()
 
-def move_servo(pin, duty_cycle_us=0, sleep=SLEEP):
-	pigpio.set_servo_pulsewidth(pin, duty_cycle_us)
-	time.sleep(sleep)
-
-def spin_servo_cw_from(pin, start=LEFT, sleep=SLEEP):
-	for duty_cycle_us in range(start, RIGHT+STEP, STEP): 
-		move_servo(pin, duty_cycle_us, sleep)
-
-def spin_servo_ccw_from(pin, start=RIGHT, sleep=SLEEP):
-        for duty_cycle_us in range(start, LEFT-STEP, -STEP):
-                move_servo(pin, duty_cycle_us, sleep)
-
-def stop_servo(pin):
-	pigpio.set_servo_pulsewidth(pin, 0)
-
-def test_servo(pin, direction):
-	init_servo(pin)
-
-	if direction: 
-		spin_servo_cw_from(pin, CENTER)
-	else:
-		spin_servo_ccw_from(pin, CENTER)
-
-	while True:
-		if direction: 
-			spin_servo_ccw_from(pin)
-		else:
-			spin_servo_cw_from(pin)
-
-		if direction: 
-			spin_servo_cw_from(pin)
-		else:
-			spin_servo_ccw_from(pin)
-
-
-try:
-
-	thread.start_new_thread( test_servo, (SERVO1_PIN, True) )
-	# thread.start_new_thread( test_servo, (SERVO2_PIN, False) )
-
-	while True:
-		pass
-
-finally:
-	print("Cleaning up...")
-	stop_servo(SERVO1_PIN)
-	# stop_servo(SERVO2_PIN)
-	pigpio.stop()
+if __name__ == '__main__':
+    try:
+        lock()
+        time.sleep(15)
+        unlock()
+		
+    except KeyboardInterrupt:
+        destroy()
