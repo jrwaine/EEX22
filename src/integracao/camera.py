@@ -1,17 +1,17 @@
 import ports
-# import RPi.GPIO as gpio
 from led import Led
 
-class Camera():
+
+class Camera:
     def __init__(self):
-        print('Criando servo')
+        print("Criando camera...")
         self.led = Led()
-        
+
     def verificar(self):
         self.led.acender()
-        print('processando imagem')
+        print("\nProcessando a imagem...")
 
         # processar imagem
-
+        print("Imagem processada!\n")
         self.led.apagar()
-        return 30 # angle
+        return 30  # angle
