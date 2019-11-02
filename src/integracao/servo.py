@@ -10,6 +10,9 @@ class Servo:
         self.position = globals.MIN
         self.pwm = gpio.PWM(ports.GPIO_PORT_OUT_PWM_SERVO, 50)
         self.pwm.start(0)
+        self.setAngle(180)
+        time.sleep(1)
+        self.setAngle(0)
 
     def apertar(self):
         time.sleep(0.5)
