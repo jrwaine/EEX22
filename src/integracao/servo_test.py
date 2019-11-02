@@ -70,7 +70,7 @@ try:
 		pass
 
 finally:
-	print "Cleaning up..."
+	print("Cleaning up...")
 	stop_servo(SERVO1_PIN)
 	# stop_servo(SERVO2_PIN)
 	pigpio.stop()
