@@ -1,5 +1,3 @@
-import sys
-import urllib2
 import RPi.GPIO as GPIO
 import time
 import ports
