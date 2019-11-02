@@ -21,9 +21,9 @@ print("RIGHT: %d" % RIGHT)
 print("CENTER: %d" % CENTER)
 
 def init_servo(pin):
-	pigpio.set_PWM_frequency(pin, 50) # 50Hz pulses
-	pigpio.set_PWM_range(pin, 20000) # 1,000,000 / 50 = 20,000us for 100% duty cycle
-  	move_servo(pin, CENTER, 5)
+    pigpio.set_PWM_frequency(pin, 50) # 50Hz pulses
+    pigpio.set_PWM_range(pin, 20000) # 1,000,000 / 50 = 20,000us for 100% duty cycle
+    move_servo(pin, CENTER, 5)
 
 
 def move_servo(pin, duty_cycle_us=0, sleep=SLEEP):
