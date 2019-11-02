@@ -66,7 +66,7 @@ class Parafusadeira:
         print("Posicionou parafusadeira em cima!\n")
 
     def descer(self):
-        print("\nPosicionando parafusadeira em baixo...")
+        print("\nPosicionando parafusadeira embaixo...")
         while gpio.input(ports.GPIO_PORT_IN_FDC_LOWER) == gpio.HIGH:
             gpio.output(ports.GPIO_PORT_OUT_PARAF_EN, gpio.HIGH)  # enable on
             gpio.output(ports.GPIO_PORT_OUT_PARAF_SIG1, gpio.LOW)
