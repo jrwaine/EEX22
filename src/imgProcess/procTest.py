@@ -5,11 +5,17 @@ from blob import Blob
 from sklearn.cluster import KMeans
 from pandas import DataFrame
 from pprint import PrettyPrinter
+# import piCamera
 
 pp = PrettyPrinter(indent=4)
 
-PATH = "./"
+PATH = "./img/"
 filenames = [PATH+"img"+str('%04d' % i) + ".bmp" for i in range(0, 14)]
+
+# camera setup
+CAMERA_SET = False
+CAM_RESOLUTION = (640, 480)
+num_imgs = 0
 
 # area to crop image in x
 CROP_X = [0.1, 0.7]
@@ -38,6 +44,18 @@ MIN_HEIGHT = 7
 # percentage of white pixels in x line to consider it as containing the desired blobs
 LINE_WHITE_PERCENTAGE = 0.4
 
+
+def take_picture():
+    with picamera.PiCamera() as camera:
+        if(not CAMERA_SET):
+            camera.resolution(CAM_RESOLUTION)
+            time.sleep(2)
+        filename = PATH+"img%04d.bmp" % num_imgs
+        camera.capture(filename, format='bmp')
+        num_imgs += 1
+    return filename, img
+
+
 def treat_image(img):
     imgTreated = img[:, int(img.shape[1]*CROP_X[0]):int(img.shape[1]*CROP_X[1]), :]
     return imgTreated
@@ -55,6 +73,9 @@ def morpholigical_operations(imgBin):
     imgBin = cv.morphologyEx(imgBin.astype('uint8'), cv.MORPH_OPEN, kernel)
     kernel = cv.getStructuringElement(cv.MORPH_RECT,(MORPH_DILATE_SIZE, MORPH_DILATE_SIZE))
     imgBin = cv.morphologyEx(imgBin, cv.MORPH_DILATE, kernel)
+    imgErode = cv.morphologyEx(imgBin, cv.MORPH_ERODE, kernel)
+    imgBin = np.bitwise_xor(imgBin, imgErode)
+    
     return imgBin
 
 
@@ -106,9 +127,18 @@ def get_desired_blobs(blobs, imgBin):
         # the blobs in the range are considered to be the desired ones
         desired_y = -1
         for y in range(blobs[i].ymin, blobs[i].ymax+1):
+            total_x = 0
+            for blob in blobs:
+                if(blob.ymin <= y and blob.ymax >= y):
+                    total_x += blob.xmax-blob.xmin
+            if(total_x >= img.shape[0]*LINE_WHITE_PERCENTAGE):
+                desired_y = y
+                break
+            '''
             if(np.sum(imgBin[y, :])/WHITE >= img.shape[0]*LINE_WHITE_PERCENTAGE):
                 desired_y = y
                 break
+            '''
         if(desired_y == -1):
             continue
         
@@ -122,8 +152,6 @@ def get_desired_blobs(blobs, imgBin):
             desiredBlobs = []
         else:
             break
-    if(len(desiredBlobs) == 0):
-        print("ERRO AQUI")
     return desiredBlobs
 
 
@@ -137,12 +165,13 @@ def get_blobs_directions(blobs):
         blob.centroids = kmeans.cluster_centers_
     
 
-for number in range(0, len(filenames)):
+for number in range(0, 10):
     times = {}
     ini_time = time.time()
 
     t0 = time.time()
-    img = cv.imread(filenames[number], cv.IMREAD_COLOR)
+    filename, img = take_picture()
+    #img = cv.imread(filenames[number], cv.IMREAD_COLOR)
     times['Read image'] = time.time()-t0
     
     t0 = time.time()
@@ -179,27 +208,12 @@ for number in range(0, len(filenames)):
     times['Drawing line'] = time.time() - t0
     
     t0 = time.time()
-    cv.imwrite(filenames[number][:-4]+"treated.bmp", imgSave)
+    #cv.imwrite(filenames[number][:-4]+"treated.bmp", imgSave)
+    cv.imwrite(filename[:-4]+"treated.bmp", imgSave)
     times['Saving'] = time.time() - t0
 
     times['Total'] = time.time()- ini_time
+    print(filenames[number])
     pp.pprint(times)
-    '''
-    imgBoard = cv.Canny(imgBin.astype('uint8'), -135, +135)
-    lines = cv.HoughLines(imgBoard,1,np.pi/180*3,50)
-    if(lines is not None):
-        for line in lines[:1]:
-            for rho,theta in line:
-                a = np.cos(theta)
-                b = np.sin(theta)
-                x0 = a*rho
-                y0 = b*rho
-                x1 = int(x0 + 1000*(-b))
-                y1 = int(y0 + 1000*(a))
-                x2 = int(x0 - 1000*(-b))
-                y2 = int(y0 - 1000*(a))
-                cv.line(img,(x1,y1),(x2,y2),(0,0,255),2)
+    print()
     
-    cv.imwrite(filenames[number][:-4]+"lines.bmp", img)
-    cv.imwrite(filenames[number][:-4]+"bin.bmp", imgBin)
-    '''
