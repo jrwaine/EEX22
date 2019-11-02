@@ -8,11 +8,19 @@ PORT = 65432        # The port used by the server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     a = input()
-    while a != '-1':
+    # while a != '-1':
+    #     s.sendall(a.encode())
+    #     data = s.recv(1024)
+    #     print('Received', repr(data))
+    #     a = input()
+
+    data = s.recv(1024)
+    while data or a != '-1':
         s.sendall(a.encode())
         data = s.recv(1024)
         print('Received', repr(data))
         a = input()
+
 
 
     
