@@ -9,6 +9,7 @@ from pandas import DataFrame
 from pprint import PrettyPrinter
 import globals
 import picamera
+from math import atan
 
 pp = PrettyPrinter(indent=4)
 
@@ -76,8 +77,24 @@ class Camera:
 
         t0 = time.time()
         imgSave = cv.cvtColor(imgBin, cv.COLOR_GRAY2RGB)
+
+        desiredBlobs.sort()
         for blob in desiredBlobs:
-            cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
+            y1 = blob.centroids[0][1]
+            y2 = blob.centroids[1][1]
+            x1 = blob.centroids[0][0]
+            x2 = blob.centroids[1][0]
+            coef_ang = (y2-y1) / (x2-x1+10e-10)
+            theta = atan(coef_ang)
+            blob.theta = theta
+        
+        if(len(desiredBlobs) == 3):
+            theta_diff = (desiredBlobs[0].theta + desiredBlobs[2].theta) - desiredBlobs[1].theta
+            if(theta_diff < 0):
+                theta_diff += 180
+
+
+        cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
         times['Drawing line'] = time.time() - t0
         
         t0 = time.time()
@@ -88,7 +105,8 @@ class Camera:
         times['Total'] = time.time()- ini_time
         pp.pprint(times)
         print()
-        
+
+        return theta_diff
 
     def treat_image(self, img):
         imgTreated = img[:, int(img.shape[1]*globals.CROP_X[0]):int(img.shape[1]*globals.CROP_X[1]), :]
@@ -174,8 +192,6 @@ class Camera:
                 desiredBlobs = []
             else:
                 break
-        if(len(desiredBlobs) == 0):
-            print("ERRO AQUI")
         return desiredBlobs
 
 
