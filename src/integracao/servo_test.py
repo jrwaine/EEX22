@@ -2,8 +2,9 @@ import sys
 import urllib2
 import RPi.GPIO as GPIO
 import time
+import ports
 
-srvPin = 3
+srvPin = ports.GPIO_PORT_OUT_PWM_SERVO
 
 fLocked = True
 
