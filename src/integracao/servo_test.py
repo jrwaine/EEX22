@@ -47,13 +47,11 @@ def destroy():
 
 if __name__ == '__main__':
     try:
-        lock()
-        time.sleep(1)
-        unlock()
-        time.sleep(1)
-        lock()
-        time.sleep(1)
-        unlock()
+        while True:
+            lock()
+            time.sleep(1)
+            unlock()
+            time.sleep(1)
 		
     except KeyboardInterrupt:
         destroy()
