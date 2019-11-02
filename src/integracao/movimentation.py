@@ -38,7 +38,7 @@ class Movimentation:
 
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.LOW)
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.HIGH)
-        while self.encoder.data() != 0:
+        while self.encoder.data() > 0:
             self.buzzer.buzz_off()
             gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
             time.sleep(0.050)

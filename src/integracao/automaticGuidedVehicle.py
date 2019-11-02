@@ -24,6 +24,7 @@ class AGV:
 
     def apertar(self, graus):
         self.movimentation.stop()
+        print("Preparando para apertar", graus, "graus...")
         self.servo.setAngle(graus)
         self.parafusadeira.descer()
         self.servo.apertar()
