@@ -21,8 +21,9 @@ class AGV:
 
     def andar_e_verificar(self):
         while self.movimentation.encoder.position < 200:
-            self.move(10, globals.CIMA)
+            self.movimentation.stop()
             angulo = self.verificar_parafuso()
+            self.move(7, globals.CIMA)
             if angulo is not None:
                 self.tem_parafuso_para_apertar(angulo)
 
