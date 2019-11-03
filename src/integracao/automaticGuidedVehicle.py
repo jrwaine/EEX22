@@ -23,7 +23,7 @@ class AGV:
         while self.movimentation.encoder.position < 200:
             self.movimentation.stop()
             angulo = self.verificar_parafuso()
-            self.move(7, globals.CIMA)
+            self.move(5, globals.CIMA)
             if angulo is not None:
                 self.tem_parafuso_para_apertar(angulo)
 
@@ -41,6 +41,7 @@ class AGV:
         self.servo.setAngle(graus)
         self.parafusadeira.descer()
         self.servo.apertar()
+        self.parafusadeira.subir()
 
     def inicio(self):
         self.parafusadeira.subir()

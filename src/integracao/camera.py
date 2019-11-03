@@ -23,13 +23,13 @@ class Camera:
             time.sleep(2)
 
     def verificar(self):
-        self.led.acender()
+        # self.led.acender()
         print("\nProcessando a imagem...")
 
         angle = self.process()
         # processar imagem
         print("Imagem processada!\n")
-        self.led.apagar()
+        # self.led.apagar()
         print('procesor e achou',angle, 'graus')
         return angle  # angle
 
