@@ -2,6 +2,7 @@ import RPi.GPIO as gpio
 import ports
 import time
 import threading
+import thread
 
 
 class Encoder(threading.Thread):
