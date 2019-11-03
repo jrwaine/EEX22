@@ -9,7 +9,7 @@ from pandas import DataFrame
 from pprint import PrettyPrinter
 import globals
 import picamera
-from math import atan
+from math import atan, pi
 
 pp = PrettyPrinter(indent=4)
 
@@ -88,7 +88,7 @@ class Camera:
             x2 = blob.centroids[1][0]
             coef_ang = (y2-y1) / (x2-x1+10e-10)
             theta = atan(coef_ang)
-            blob.theta = theta
+            blob.theta = theta/pi*180
         
         theta_diff = None
         
@@ -96,9 +96,10 @@ class Camera:
             theta_diff = (desiredBlobs[0].theta + desiredBlobs[2].theta) - desiredBlobs[1].theta
             if(theta_diff < 0):
                 theta_diff += 180
-
-
-        cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
+        
+        t0 = time.time()
+        for blob in desiredBlobs:
+            cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
         times['Drawing line'] = time.time() - t0
         
         t0 = time.time()
