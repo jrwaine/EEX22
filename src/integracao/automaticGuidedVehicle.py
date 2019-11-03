@@ -9,7 +9,7 @@ import globals
 class AGV:
     def __init__(self):
         print("Criando o AGV...")
-        self.parafusadeira = Parafusadeira(False)
+        self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
         self.servo = Servo()
         self.camera = Camera()
