@@ -23,10 +23,12 @@ class Camera:
         self.led.acender()
         print("\nProcessando a imagem...")
 
+        angle = self.process()
         # processar imagem
         print("Imagem processada!\n")
         self.led.apagar()
-        return 30  # angle
+        print('procesor e achou',angle, 'graus')
+        return angle  # angle
 
     def take_picture(self):
         with picamera.PiCamera() as camera:

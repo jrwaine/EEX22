@@ -12,6 +12,7 @@ try:
     #     Camera.process()
     #     time.sleep(1)
     agv = AGV()
+    agv.camera.verificar()
 
     agv.move(25, globals.MEIO)
     agv.apertar(agv.verificar_parafuso())
