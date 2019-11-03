@@ -9,10 +9,10 @@ import globals
 class AGV:
     def __init__(self):
         print("Criando o AGV...")
-        self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
+        self.parafusadeira = Parafusadeira()
         self.servo = Servo()
-        # self.camera = Camera()
+        self.camera = Camera()
 
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
