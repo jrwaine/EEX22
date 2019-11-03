@@ -25,7 +25,8 @@ class AGV:
             angulo = self.verificar_parafuso()
             self.move(5, globals.CIMA)
             if angulo is not None:
-                self.tem_parafuso_para_apertar(angulo)
+                if angulo >= 15 and angulo <= 165:
+                    self.tem_parafuso_para_apertar(angulo)
 
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
