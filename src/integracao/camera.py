@@ -19,7 +19,7 @@ class Camera:
         self.led = Led()
         self.n_images = 0
         with picamera.PiCamera() as camera:
-            camera.resolution(globals.CAM_RESOLUTION)
+            camera.resolution = globals.CAM_RESOLUTION
             time.sleep(2)
 
     def verificar(self):
