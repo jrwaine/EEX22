@@ -12,6 +12,7 @@ class Movimentation:
         self.encoder = Encoder()
         self.ultrassonico = Ultrassonico()
         self.buzzer = Buzzer()
+        self.stop()
 
     def move(self, distance):
         self._restart_threads()
