@@ -25,7 +25,6 @@ class Camera:
     def verificar(self):
         # self.led.acender()
         print("\nProcessando a imagem...")
-
         angle = self.process()
         # processar imagem
         print("Imagem processada!\n")
