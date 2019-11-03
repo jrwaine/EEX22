@@ -3,17 +3,16 @@ import ports
 import time
 import threading
 import globals
+import _thread
 
 
-class Ultrassonico(threading.Thread):
+class Ultrassonico():
     def __init__(self):
         print("Criando ultrassonico...")
-        threading.Thread.__init__(self)
         self._stop_event = threading.Event()
         self._kill_self = False
         self.distance = None
         self.close_object = None
-        self.start()
 
     def readUltrassonico(self):
         gpio.output(ports.GPIO_PORT_OUT_ULTR_TRIGG, True)
@@ -47,14 +46,13 @@ class Ultrassonico(threading.Thread):
     def run(self):
         print("\nIniciando thread ultrassonico...")
         print("Thread ultrassonico iniciada!\n")
-        while not self._kill_self:
-            if not self.stopped():
-                self.readUltrassonico()
+        while not self.stopped():
+            self.readUltrassonico()
 
         print("Fim da thread do ultrassonico!")
 
     def restart(self):
-        self._stop_event.clear()
+        _thread.start_new_thread (self.run)
 
     def check_can_move(self):
         return not self.close_object
