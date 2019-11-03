@@ -90,6 +90,8 @@ class Camera:
             theta = atan(coef_ang)
             blob.theta = theta
         
+        theta_diff = None
+        
         if(len(desiredBlobs) == 3):
             theta_diff = (desiredBlobs[0].theta + desiredBlobs[2].theta) - desiredBlobs[1].theta
             if(theta_diff < 0):
