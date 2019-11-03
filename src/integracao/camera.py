@@ -18,6 +18,9 @@ class Camera:
         print("Criando camera...")
         self.led = Led()
         self.n_images = 0
+        with picamera.PiCamera() as camera:
+            camera.resolution(globals.CAM_RESOLUTION)
+            time.sleep(2)
 
     def verificar(self):
         self.led.acender()
@@ -32,9 +35,6 @@ class Camera:
 
     def take_picture(self):
         with picamera.PiCamera() as camera:
-            if(not globals.CAMERA_SET):
-                camera.resolution(globals.CAM_RESOLUTION)
-                time.sleep(2)
             filename = globals.PATH+"img%04d.bmp" % self.n_images
             camera.capture(filename, format='bmp')
             self.n_images += 1
