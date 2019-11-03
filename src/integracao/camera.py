@@ -38,7 +38,7 @@ class Camera:
             filename = globals.PATH+"img%04d.bmp" % self.n_images
             camera.capture(filename, format='bmp')
             self.n_images += 1
-            img = cv.imread(filename, cv.CV_IMREAD_COLOR)
+            img = cv.imread(filename, cv.IMREAD_COLOR)
         return filename, img
 
     def process(self):
