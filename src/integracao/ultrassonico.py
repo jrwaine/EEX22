@@ -52,7 +52,7 @@ class Ultrassonico():
         print("Fim da thread do ultrassonico!")
 
     def restart(self):
-        _thread.start_new_thread (self.run)
+        _thread.start_new_thread (self.run, ())
 
     def check_can_move(self):
         return not self.close_object

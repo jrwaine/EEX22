@@ -15,7 +15,6 @@ class AGV:
         self.parafusadeira = Parafusadeira()
         
     def move(self, distance, parafusadeira_position):
-        self.movimentation.stop()
         if self.parafusadeira.position != parafusadeira_position:
             if parafusadeira_position == globals.CIMA:
                 self.parafusadeira.subir()
