@@ -12,14 +12,17 @@ try:
     #     Camera.process()
     #     time.sleep(1)
     agv = AGV()
-    agv.camera.verificar()
 
-    agv.move(25, globals.MEIO)
-    agv.apertar(agv.verificar_parafuso())
-    agv.move(10, globals.CIMA)
-    agv.move(25, globals.MEIO)
-    agv.apertar(90)
-    agv.inicio()
+    agv.andar_e_verificar()
+
+    # agv.camera.verificar()
+
+    # agv.move(25, globals.MEIO)
+    # agv.apertar(agv.verificar_parafuso())
+    # agv.move(10, globals.CIMA)
+    # agv.move(25, globals.MEIO)
+    # agv.apertar(90)
+    # agv.inicio()
 
     agv.kill()
 

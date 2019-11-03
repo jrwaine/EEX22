@@ -14,7 +14,18 @@ class AGV:
         self.camera = Camera()
         self.parafusadeira = Parafusadeira()
         self.parafusadeira.config()
-        
+
+    def tem_parafuso_para_apertar(self, angulo):
+        self.move(30, globals.MEIO)
+        self.apertar(angulo)
+
+    def andar_e_verificar(self):
+        while self.movimentation.encoder.position < 200:
+            self.move(10, globals.CIMA)
+            angulo = self.verificar_parafuso()
+            if angulo is not None:
+                self.tem_parafuso_para_apertar(angulo)
+
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
             if parafusadeira_position == globals.CIMA:
