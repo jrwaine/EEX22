@@ -55,6 +55,7 @@ class Encoder():
         return self.position
 
     def restart(self):
+        self._stop_event.clear()
         _thread.start_new_thread (self.run, ())
 
     def stop(self):
