@@ -12,7 +12,7 @@ class AGV:
         self.parafusadeira = Parafusadeira()
         self.movimentation = Movimentation()
         self.servo = Servo()
-        self.camera = Camera()
+        # self.camera = Camera()
 
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
