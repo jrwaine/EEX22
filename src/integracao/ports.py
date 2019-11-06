@@ -1,5 +1,5 @@
 # Ultrassonic
-GPIO_PORT_IN_ULTR_ECHO = 3
+GPIO_PORT_IN_ULTR_ECHO = 7
 GPIO_PORT_OUT_ULTR_TRIGG = 18
 
 # Fim de curso
