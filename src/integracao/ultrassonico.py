@@ -64,7 +64,7 @@ class Ultrassonico():
         print("Leitura do ultrassonico parada!\n")
 
     def kill_thread(self):
-        self._kill_self = True
+        self.stop()
 
     def stopped(self):
         return self._stop_event.is_set()

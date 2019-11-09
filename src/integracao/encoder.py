@@ -67,4 +67,4 @@ class Encoder():
         return self._stop_event.is_set()
 
     def kill_thread(self):
-        self._kill_self = True
+        self.stop()
