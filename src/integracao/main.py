@@ -12,6 +12,8 @@ try:
     agv.andar_e_verificar()
     log = agv.kill()
 
+    print(log)
+
     # comm = Communication()
     # comm.try_comunication(log)
 
