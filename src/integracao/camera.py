@@ -175,27 +175,43 @@ class Camera:
             if((blobs[i].ymax/imgBin.shape[0] > globals.VALID_BLOB_RANGE_Y[1] or\
                 blobs[i].ymin/imgBin.shape[0] < globals.VALID_BLOB_RANGE_Y[0])):
                 continue
+            blobs[i].valid = True
+            
+        for i in range(0, len(blobs)):
+            if(blobs[i].valid == False):
+                continue
             
             # check if blob line in x has "a lot" of white. If so
             # the blobs in the range are considered to be the desired ones
             desired_y = -1
             for y in range(blobs[i].ymin, blobs[i].ymax+1):
-                if(np.sum(imgBin[y, :])/globals.WHITE >= imgBin.shape[0]*globals.LINE_WHITE_PERCENTAGE):
+                total_x = 0
+                for blob in blobs:
+                    if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
+                        total_x += blob.xmax-blob.xmin
+                if(total_x >= imgBin.shape[0]*LINE_WHITE_PERCENTAGE):
                     desired_y = y
                     break
+                '''
+                if(np.sum(imgBin[y, :])/WHITE >= img.shape[0]*LINE_WHITE_PERCENTAGE):
+                    desired_y = y
+                    break
+                '''
             if(desired_y == -1):
                 continue
-            
+
             # get all blobs in the height of the y desired
             for j in range(0, len(blobs)):
                 if(blobs[j].ymax >= desired_y and blobs[j].ymin <= desired_y):
-                    desiredBlobs.append(blobs[j])
-            
+                    if(blobs[j].valid == True):
+                        desiredBlobs.append(blobs[j])
+
             # if it found less than 3 blobs
             if(len(desiredBlobs) < 3):
                 desiredBlobs = []
             else:
                 break
+
         return desiredBlobs
 
 
