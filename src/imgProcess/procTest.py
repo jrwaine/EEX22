@@ -10,7 +10,7 @@ from pprint import PrettyPrinter
 pp = PrettyPrinter(indent=4)
 
 PATH = "./img/"
-filenames = [PATH+"img"+str('%04d' % i) + ".bmp" for i in range(0, 14)]
+filenames = [PATH+"img"+str('%04d' % i) + ".bmp" for i in range(0, 15)]
 
 # camera setup
 CAMERA_SET = False
@@ -44,7 +44,7 @@ MIN_HEIGHT = 7
 # percentage of white pixels in x line to consider it as containing the desired blobs
 LINE_WHITE_PERCENTAGE = 0.4
 
-
+'''
 def take_picture():
     with picamera.PiCamera() as camera:
         if(not CAMERA_SET):
@@ -54,7 +54,7 @@ def take_picture():
         camera.capture(filename, format='bmp')
         num_imgs += 1
     return filename, img
-
+'''
 
 def treat_image(img):
     imgTreated = img[:, int(img.shape[1]*CROP_X[0]):int(img.shape[1]*CROP_X[1]), :]
@@ -101,8 +101,8 @@ def rotula(img, blob, y0, x0):
 def get_blobs(img):
     blobs = []
 
-    # only looks for blobs in x=0.25 or x=0.5 or x=0.75
-    for x in [img.shape[1]//4, img.shape[1]//2, (img.shape[1]*3)//4]:
+    # only looks for blobs in x=0.1, x=0.2 ... x=0.9
+    for x in [int(i*img.shape[1]) for i in np.arange(0, 1, 0.1)]:
         for y in range(0, img.shape[0]):
             if(img[y, x] == WHITE):
                 blobs.append(Blob())
@@ -119,8 +119,13 @@ def get_desired_blobs(blobs, imgBin):
         if((blobs[i].ymax - blobs[i].ymin) < MIN_HEIGHT):
             continue
         # validate blob y range
-        if((blobs[i].ymax/img.shape[0] > VALID_BLOB_RANGE_Y[1] or\
-            blobs[i].ymin/img.shape[0] < VALID_BLOB_RANGE_Y[0])):
+        if((blobs[i].ymax/imgBin.shape[0] > VALID_BLOB_RANGE_Y[1] or\
+            blobs[i].ymin/imgBin.shape[0] < VALID_BLOB_RANGE_Y[0])):
+            continue
+        blobs[i].valid = True
+        
+    for i in range(0, len(blobs)):
+        if(blobs[i].valid == False):
             continue
         
         # check if blob line in x has "a lot" of white. If so
@@ -129,9 +134,9 @@ def get_desired_blobs(blobs, imgBin):
         for y in range(blobs[i].ymin, blobs[i].ymax+1):
             total_x = 0
             for blob in blobs:
-                if(blob.ymin <= y and blob.ymax >= y):
+                if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
                     total_x += blob.xmax-blob.xmin
-            if(total_x >= img.shape[0]*LINE_WHITE_PERCENTAGE):
+            if(total_x >= imgBin.shape[0]*LINE_WHITE_PERCENTAGE):
                 desired_y = y
                 break
             '''
@@ -141,17 +146,19 @@ def get_desired_blobs(blobs, imgBin):
             '''
         if(desired_y == -1):
             continue
-        
+
         # get all blobs in the height of the y desired
         for j in range(0, len(blobs)):
             if(blobs[j].ymax >= desired_y and blobs[j].ymin <= desired_y):
-                desiredBlobs.append(blobs[j])
-        
+                if(blobs[j].valid == True):
+                    desiredBlobs.append(blobs[j])
+
         # if it found less than 3 blobs
         if(len(desiredBlobs) < 3):
             desiredBlobs = []
         else:
             break
+
     return desiredBlobs
 
 
@@ -165,13 +172,13 @@ def get_blobs_directions(blobs):
         blob.centroids = kmeans.cluster_centers_
     
 
-for number in range(0, 10):
+for number in range(0, 15):
     times = {}
     ini_time = time.time()
 
     t0 = time.time()
-    filename, img = take_picture()
-    #img = cv.imread(filenames[number], cv.IMREAD_COLOR)
+    #filename, img = take_picture()
+    img = cv.imread(filenames[number], cv.IMREAD_COLOR)
     times['Read image'] = time.time()-t0
     
     t0 = time.time()
@@ -201,6 +208,9 @@ for number in range(0, 10):
     get_blobs_directions(desiredBlobs)
     times['Blobs processing'] = time.time() - t0
 
+    print(len(desiredBlobs), len(blobs))
+    print([i.ymin for i in desiredBlobs])
+
     t0 = time.time()
     imgSave = cv.cvtColor(imgBin, cv.COLOR_GRAY2RGB)
     for blob in desiredBlobs:
@@ -208,8 +218,9 @@ for number in range(0, 10):
     times['Drawing line'] = time.time() - t0
     
     t0 = time.time()
-    #cv.imwrite(filenames[number][:-4]+"treated.bmp", imgSave)
-    cv.imwrite(filename[:-4]+"treated.bmp", imgSave)
+
+    cv.imwrite(filenames[number][:-4]+"treated.bmp", imgSave)
+    #cv.imwrite(filename[:-4]+"treated.bmp", imgSave)
     times['Saving'] = time.time() - t0
 
     times['Total'] = time.time()- ini_time

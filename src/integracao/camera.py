@@ -18,6 +18,9 @@ class Camera:
         print("Criando camera...")
         self.led = Led()
         self.n_images = 0
+        with picamera.PiCamera() as camera:
+            camera.resolution(globals.CAM_RESOLUTION)
+            time.sleep(2)
 
     def verificar(self):
         self.led.acender()
@@ -30,9 +33,6 @@ class Camera:
 
     def take_picture(self):
         with picamera.PiCamera() as camera:
-            if(not globals.CAMERA_SET):
-                camera.resolution(globals.CAM_RESOLUTION)
-                time.sleep(2)
             filename = globals.PATH+"img%04d.bmp" % self.n_images
             camera.capture(filename, format='bmp')
             self.n_images += 1
@@ -163,35 +163,51 @@ class Camera:
         desiredBlobs = []
         for i in range(0, len(blobs)):
             # validade width and height of blob
-            if((blobs[i].xmax - blobs[i].xmin) < globals.MIN_WIDTH):
+            if((blobs[i].xmax - blobs[i].xmin) < MIN_WIDTH):
                 continue
-            if((blobs[i].ymax - blobs[i].ymin) < globals.MIN_HEIGHT):
+            if((blobs[i].ymax - blobs[i].ymin) < MIN_HEIGHT):
                 continue
             # validate blob y range
-            if((blobs[i].ymax/imgBin.shape[0] > globals.VALID_BLOB_RANGE_Y[1] or\
-                blobs[i].ymin/imgBin.shape[0] < globals.VALID_BLOB_RANGE_Y[0])):
+            if((blobs[i].ymax/imgBin.shape[0] > VALID_BLOB_RANGE_Y[1] or\
+                blobs[i].ymin/imgBin.shape[0] < VALID_BLOB_RANGE_Y[0])):
+                continue
+            blobs[i].valid = True
+            
+        for i in range(0, len(blobs)):
+            if(blobs[i].valid == False):
                 continue
             
             # check if blob line in x has "a lot" of white. If so
             # the blobs in the range are considered to be the desired ones
             desired_y = -1
             for y in range(blobs[i].ymin, blobs[i].ymax+1):
-                if(np.sum(imgBin[y, :])/globals.WHITE >= imgBin.shape[0]*globals.LINE_WHITE_PERCENTAGE):
+                total_x = 0
+                for blob in blobs:
+                    if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
+                        total_x += blob.xmax-blob.xmin
+                if(total_x >= imgBin.shape[0]*LINE_WHITE_PERCENTAGE):
                     desired_y = y
                     break
+                '''
+                if(np.sum(imgBin[y, :])/WHITE >= img.shape[0]*LINE_WHITE_PERCENTAGE):
+                    desired_y = y
+                    break
+                '''
             if(desired_y == -1):
                 continue
-            
+
             # get all blobs in the height of the y desired
             for j in range(0, len(blobs)):
                 if(blobs[j].ymax >= desired_y and blobs[j].ymin <= desired_y):
-                    desiredBlobs.append(blobs[j])
-            
+                    if(blobs[j].valid == True):
+                        desiredBlobs.append(blobs[j])
+
             # if it found less than 3 blobs
             if(len(desiredBlobs) < 3):
                 desiredBlobs = []
             else:
                 break
+
         return desiredBlobs
 
 
