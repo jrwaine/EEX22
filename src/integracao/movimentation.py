@@ -13,6 +13,8 @@ class Movimentation:
         self.ultrassonico = Ultrassonico()
         self.buzzer = Buzzer()
         self.stop()
+        self._tinha_na_frente = 0
+        self.encontrados = 0
 
     def move(self, distance):
         self._restart_threads()
@@ -23,12 +25,16 @@ class Movimentation:
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG2, gpio.LOW)
         while self.encoder.data() < distance + initial_position:
             if self.ultrassonico.check_can_move():
+                if self._tinha_na_frente == 1:
+                    self._tinha_na_frente = 0
+                    self.encontrados += 1
                 self.buzzer.buzz_off()
                 gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.HIGH)
                 time.sleep(0.050)
                 gpio.output(ports.GPIO_PORT_OUT_AGV_EN, gpio.LOW)
                 time.sleep(0.050)
             else:
+                self._tinha_na_frente = 1
                 self.buzzer.buzz_on()
 
         self.brake()
@@ -49,6 +55,9 @@ class Movimentation:
         self.brake()
         print("AGV na posicao de inicio!\n")
 
+    def objetos_encontrados(self):
+        return self.encontrados
+    
     def brake(self):
         print("\nFreiando...")
         gpio.output(ports.GPIO_PORT_OUT_AGV_SIG1, gpio.HIGH)

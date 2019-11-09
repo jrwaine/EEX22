@@ -14,6 +14,7 @@ class AGV:
         self.camera = Camera()
         self.parafusadeira = Parafusadeira()
         self.parafusadeira.config()
+        self.log = {'Parafusos': [], 'Distancia percorrida': 0, 'Fotos analisadas': 0, 'Objetos na frente': 0}
 
     def tem_parafuso_para_apertar(self, angulo):
         self.move(30, globals.MEIO)
@@ -23,8 +24,10 @@ class AGV:
         while self.movimentation.encoder.position < 200:
             self.movimentation.stop()
             angulo = self.verificar_parafuso()
+            self.log['Fotos analisadas'] += 1
             self.move(5, globals.CIMA)
             if angulo is not None:
+                self.log['Parafusos'].append({'Posicao': self.movimentation.encoder.data(), 'Angulo': angulo })
                 if angulo >= 15 and angulo <= 165:
                     self.tem_parafuso_para_apertar(angulo)
 
@@ -56,3 +59,8 @@ class AGV:
         self.movimentation.kill_threads()
         cf.resetGPIOs()
         print("Atividade do AGV encerradas!\n")
+
+    def get_log(self):
+        self.log['Distancia percorrida'] = self.movimentation.encoder.data()
+        self.log['Objetos na frente'] = self.movimentation.objetos_encontrados()
+        return self.log
