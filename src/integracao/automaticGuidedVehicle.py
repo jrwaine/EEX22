@@ -60,7 +60,13 @@ class AGV:
         self.log['Objetos na frente'] = self.movimentation.objetos_encontrados()
         print("\nEncerrando as atividades do AGV ...")
         self.movimentation.kill_threads()
-        time.sleep(2)
+
+        for i in range(5):
+            self.movimentation.buzzer.buzz_on()
+            time.sleep(.2)
+            self.movimentation.buzzer.buzz_off()
+            time.sleep(.2)
+
         cf.resetGPIOs()
         print("Atividade do AGV encerradas!\n")
         return self.log
