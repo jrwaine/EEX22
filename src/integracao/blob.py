@@ -13,7 +13,8 @@ class Blob:
 
         self.ymax = -1
         self.ymin = 1e100
-
+        self.valid = False
+        
         self.__statId += 1
 
     def addPixel(self, y, x):
