@@ -17,7 +17,9 @@ class Servo:
         print("Apertou!")
         
     def setAngle(self, angle):
-        duty = 10*angle/180 + 2.5
+        A = 10
+        B = 2.5
+        duty = A*angle/180 + B
         gpio.output(ports.GPIO_PORT_OUT_PWM_SERVO, True)
         self.pwm.ChangeDutyCycle(duty)
         time.sleep(1)
