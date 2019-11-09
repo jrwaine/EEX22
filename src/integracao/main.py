@@ -12,8 +12,8 @@ try:
     agv.andar_e_verificar()
     log = agv.kill()
 
-    comm = Communication()
-    comm.try_comunication(log)
+    # comm = Communication()
+    # comm.try_comunication(log)
 
 except KeyboardInterrupt:
     agv.kill()
