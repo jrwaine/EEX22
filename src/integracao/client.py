@@ -19,7 +19,7 @@ while True:
             break
     except:
         print("conectando ao servidor...aguarde")
-        time.sleep(2)
+        time.sleep(5)
         pass
 
 
