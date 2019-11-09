@@ -2,12 +2,12 @@ import RPi.GPIO as gpio
 import ports
 import time
 import threading
+import _thread
 
 
-class Encoder(threading.Thread):
+class Encoder():
     def __init__(self):
         print("Criando encoder...")
-        threading.Thread.__init__(self)
         self._stop_event = threading.Event()
         self._kill_self = False
         self.position = 0
@@ -20,7 +20,6 @@ class Encoder(threading.Thread):
             if self.state[i] == (self.last_a, self.last_b)
         ][0]
         self.last_state = self.curr_state
-        self.start()
 
     def readEncoder(self):
         self.enc_a = gpio.input(ports.GPIO_PORT_IN_ENC_SIG1)
@@ -48,9 +47,8 @@ class Encoder(threading.Thread):
     def run(self):
         print("\nIniciando thread encoder...")
         print("Thread encoder iniciada!\n")
-        while not self._kill_self:
-            if not self.stopped():
-                self.readEncoder()
+        while not self.stopped():
+            self.readEncoder()
         print("Fim da thread do encoder!")
 
     def data(self):
@@ -58,6 +56,7 @@ class Encoder(threading.Thread):
 
     def restart(self):
         self._stop_event.clear()
+        _thread.start_new_thread (self.run, ())
 
     def stop(self):
         self._stop_event.set()

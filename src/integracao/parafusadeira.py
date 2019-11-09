@@ -5,15 +5,15 @@ import globals
 
 
 class Parafusadeira:
-    def __init__(self, config=True):
+    def __init__(self):
         print("Criando parafusadeira...")
         self.position = None
         self.half_duration = None
         self.configured = False
-        if config:
-            self._config()
+        # if config:
+        #     self.config()
 
-    def _config(self):
+    def config(self):
         print("\nConfigurando a parafusadeira...")
         if not self.configured:
             self.descer()

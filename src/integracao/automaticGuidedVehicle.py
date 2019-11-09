@@ -9,10 +9,24 @@ import globals
 class AGV:
     def __init__(self):
         print("Criando o AGV...")
-        self.parafusadeira = Parafusadeira(False)
         self.movimentation = Movimentation()
         self.servo = Servo()
         self.camera = Camera()
+        self.parafusadeira = Parafusadeira()
+        self.parafusadeira.config()
+
+    def tem_parafuso_para_apertar(self, angulo):
+        self.move(30, globals.MEIO)
+        self.apertar(angulo)
+
+    def andar_e_verificar(self):
+        while self.movimentation.encoder.position < 200:
+            self.movimentation.stop()
+            angulo = self.verificar_parafuso()
+            self.move(5, globals.CIMA)
+            if angulo is not None:
+                if angulo >= 15 and angulo <= 165:
+                    self.tem_parafuso_para_apertar(angulo)
 
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
@@ -28,6 +42,7 @@ class AGV:
         self.servo.setAngle(graus)
         self.parafusadeira.descer()
         self.servo.apertar()
+        self.parafusadeira.subir()
 
     def inicio(self):
         self.parafusadeira.subir()

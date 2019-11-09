@@ -7,11 +7,15 @@ agv = None
 
 try:
 
-    cam = Camera()
-    for i in range(0, 10):
-        Camera.process()
-        time.sleep(1)
-    # agv = AGV()
+    # cam = Camera()
+    # for i in range(0, 10):
+    #     Camera.process()
+    #     time.sleep(1)
+    agv = AGV()
+
+    agv.andar_e_verificar()
+
+    # agv.camera.verificar()
 
     # agv.move(25, globals.MEIO)
     # agv.apertar(agv.verificar_parafuso())
@@ -20,8 +24,8 @@ try:
     # agv.apertar(90)
     # agv.inicio()
 
-    # agv.kill()
+    agv.kill()
 
 except KeyboardInterrupt:
-    # agv.kill()
+    agv.kill()
 

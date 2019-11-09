@@ -9,7 +9,7 @@ from pandas import DataFrame
 from pprint import PrettyPrinter
 import globals
 import picamera
-from math import atan
+from math import atan, pi
 
 pp = PrettyPrinter(indent=4)
 
@@ -19,24 +19,25 @@ class Camera:
         self.led = Led()
         self.n_images = 0
         with picamera.PiCamera() as camera:
-            camera.resolution(globals.CAM_RESOLUTION)
+            camera.resolution = globals.CAM_RESOLUTION
             time.sleep(2)
 
     def verificar(self):
-        self.led.acender()
+        # self.led.acender()
         print("\nProcessando a imagem...")
-
+        angle = self.process()
         # processar imagem
         print("Imagem processada!\n")
-        self.led.apagar()
-        return 30  # angle
+        # self.led.apagar()
+        print('procesor e achou',angle, 'graus')
+        return angle  # angle
 
     def take_picture(self):
         with picamera.PiCamera() as camera:
             filename = globals.PATH+"img%04d.bmp" % self.n_images
             camera.capture(filename, format='bmp')
             self.n_images += 1
-            img = cv.imread(filename, cv.CV_IMREAD_COLOR)
+            img = cv.imread(filename, cv.IMREAD_COLOR)
         return filename, img
 
     def process(self):
@@ -86,15 +87,18 @@ class Camera:
             x2 = blob.centroids[1][0]
             coef_ang = (y2-y1) / (x2-x1+10e-10)
             theta = atan(coef_ang)
-            blob.theta = theta
+            blob.theta = theta/pi*180
+        
+        theta_diff = None
         
         if(len(desiredBlobs) == 3):
             theta_diff = (desiredBlobs[0].theta + desiredBlobs[2].theta) - desiredBlobs[1].theta
             if(theta_diff < 0):
                 theta_diff += 180
-
-
-        cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
+        
+        t0 = time.time()
+        for blob in desiredBlobs:
+            cv.line(imgSave, tuple(blob.centroids[0].astype('int')), tuple(blob.centroids[1].astype('int')), (255, 0, 0), 3)
         times['Drawing line'] = time.time() - t0
         
         t0 = time.time()
@@ -163,13 +167,13 @@ class Camera:
         desiredBlobs = []
         for i in range(0, len(blobs)):
             # validade width and height of blob
-            if((blobs[i].xmax - blobs[i].xmin) < MIN_WIDTH):
+            if((blobs[i].xmax - blobs[i].xmin) < globals.MIN_WIDTH):
                 continue
-            if((blobs[i].ymax - blobs[i].ymin) < MIN_HEIGHT):
+            if((blobs[i].ymax - blobs[i].ymin) < globals.MIN_HEIGHT):
                 continue
             # validate blob y range
-            if((blobs[i].ymax/imgBin.shape[0] > VALID_BLOB_RANGE_Y[1] or\
-                blobs[i].ymin/imgBin.shape[0] < VALID_BLOB_RANGE_Y[0])):
+            if((blobs[i].ymax/imgBin.shape[0] > globals.VALID_BLOB_RANGE_Y[1] or\
+                blobs[i].ymin/imgBin.shape[0] < globals.VALID_BLOB_RANGE_Y[0])):
                 continue
             blobs[i].valid = True
             
