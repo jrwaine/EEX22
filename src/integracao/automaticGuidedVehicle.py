@@ -3,6 +3,7 @@ from movimentation import Movimentation
 from parafusadeira import Parafusadeira
 from servo import Servo
 from camera import Camera
+import time
 import globals
 
 
@@ -59,6 +60,7 @@ class AGV:
         self.log['Objetos na frente'] = self.movimentation.objetos_encontrados()
         print("\nEncerrando as atividades do AGV ...")
         self.movimentation.kill_threads()
+        time.sleep(2)
         cf.resetGPIOs()
         print("Atividade do AGV encerradas!\n")
         return self.log
