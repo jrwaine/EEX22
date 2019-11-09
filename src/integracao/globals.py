@@ -55,6 +55,6 @@ LINE_WHITE_PERCENTAGE = 0.4
 
 # ------------------------
 
-HOST = '192.168.100.74'  # Standard loopback interface address (localhost)
+HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
 PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
 COMMUNICATION_LIMIT_TIME = 60
