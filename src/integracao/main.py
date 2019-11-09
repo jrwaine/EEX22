@@ -3,6 +3,7 @@ from automaticGuidedVehicle import AGV
 from camera import Camera
 from communication import Communication
 import globals
+import time
 
 agv = None
 
@@ -11,6 +12,8 @@ try:
 
     agv.andar_e_verificar()
     log = agv.kill()
+
+    time.sleep(1)
 
     print(log)
 
