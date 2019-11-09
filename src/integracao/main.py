@@ -17,8 +17,8 @@ try:
 
     print(log)
 
-    # comm = Communication()
-    # comm.try_comunication(log)
+    comm = Communication()
+    comm.try_comunication(log)
 
 except KeyboardInterrupt:
     agv.kill()
