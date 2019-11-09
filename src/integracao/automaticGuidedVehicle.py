@@ -24,7 +24,7 @@ class AGV:
     def andar_e_verificar(self):
         while self.movimentation.encoder.position < 40:
             self.movimentation.stop()
-            angulo = 0#self.verificar_parafuso()
+            angulo = self.verificar_parafuso()
             self.log['Fotos analisadas'] += 1
             self.move(5, globals.CIMA)
             if angulo is not None:
