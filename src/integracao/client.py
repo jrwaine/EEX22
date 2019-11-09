@@ -2,6 +2,7 @@
 
 import socket
 import json
+import time
 
 HOST = '192.168.100.74'  # The server's hostname or IP address
 PORT = 9077        # The port used by the server
@@ -17,6 +18,8 @@ while True:
             print(d)
             break
     except:
+        print("conectando ao servidor...aguarde")
+        time.sleep(2)
         pass
 
 
