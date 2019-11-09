@@ -61,6 +61,4 @@ class AGV:
         self.movimentation.kill_threads()
         cf.resetGPIOs()
         print("Atividade do AGV encerradas!\n")
-
-    def get_log(self):
         return self.log

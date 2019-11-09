@@ -10,10 +10,10 @@ try:
     agv = AGV()
 
     agv.andar_e_verificar()
-    agv.kill()
+    log = agv.kill()
 
     comm = Communication()
-    comm.try_comunication(agv.get_log())
+    comm.try_comunication(log)
 
 except KeyboardInterrupt:
     agv.kill()
