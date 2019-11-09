@@ -55,12 +55,12 @@ class AGV:
         return self.camera.verificar()
 
     def kill(self):
+        self.log['Distancia percorrida'] = self.movimentation.encoder.data()
+        self.log['Objetos na frente'] = self.movimentation.objetos_encontrados()
         print("\nEncerrando as atividades do AGV ...")
         self.movimentation.kill_threads()
         cf.resetGPIOs()
         print("Atividade do AGV encerradas!\n")
 
     def get_log(self):
-        self.log['Distancia percorrida'] = self.movimentation.encoder.data()
-        self.log['Objetos na frente'] = self.movimentation.objetos_encontrados()
         return self.log
