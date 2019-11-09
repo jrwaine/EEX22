@@ -20,3 +20,4 @@ class Communication:
                 with conn:
                     print('Conectado por', addr)
                     conn.sendall(json.dumps(data).encode('utf-8'))
+                    break
