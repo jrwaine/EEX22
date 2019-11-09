@@ -3,6 +3,7 @@
 import socket
 import globals
 import time
+import json
 
 class Communication:
     def __init__(self):
@@ -18,4 +19,4 @@ class Communication:
                 conn, addr = s.accept()
                 with conn:
                     print('Conectado por', addr)
-                    conn.sendall(data)
+                    conn.sendall(json.dumps(data).encode('utf-8'))

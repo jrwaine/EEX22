@@ -21,7 +21,7 @@ class AGV:
         self.apertar(angulo)
 
     def andar_e_verificar(self):
-        while self.movimentation.encoder.position < 20:
+        while self.movimentation.encoder.position < 40:
             self.movimentation.stop()
             angulo = self.verificar_parafuso()
             self.log['Fotos analisadas'] += 1

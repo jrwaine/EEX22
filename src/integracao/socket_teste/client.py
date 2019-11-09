@@ -8,4 +8,7 @@ PORT = 65432        # The port used by the server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     data = s.recv(1024)
-    print('Received', repr(data))
+    b = b''
+    b += data
+    d = json.loads(b.decode('utf-8'))
+    print(d)
