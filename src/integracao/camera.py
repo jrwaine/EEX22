@@ -189,7 +189,7 @@ class Camera:
                 for blob in blobs:
                     if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
                         total_x += blob.xmax-blob.xmin
-                if(total_x >= imgBin.shape[0]*LINE_WHITE_PERCENTAGE):
+                if(total_x >= imgBin.shape[0]*globals.LINE_WHITE_PERCENTAGE):
                     desired_y = y
                     break
                 '''
