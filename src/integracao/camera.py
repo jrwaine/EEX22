@@ -166,14 +166,15 @@ class Camera:
     def get_desired_blobs(self, blobs, imgBin):
         desiredBlobs = []
         for i in range(0, len(blobs)):
+            blobs[i].valid = False
             # validade width and height of blob
             if((blobs[i].xmax - blobs[i].xmin) < globals.MIN_WIDTH):
                 continue
             if((blobs[i].ymax - blobs[i].ymin) < globals.MIN_HEIGHT):
                 continue
             # validate blob y range
-            if((blobs[i].ymax/imgBin.shape[0] > globals.VALID_BLOB_RANGE_Y[1] or\
-                blobs[i].ymin/imgBin.shape[0] < globals.VALID_BLOB_RANGE_Y[0])):
+            if((blobs[i].ymax == imgBin.shape[0] or\
+                blobs[i].ymin == 0)):
                 continue
             blobs[i].valid = True
             
@@ -189,7 +190,7 @@ class Camera:
                 for blob in blobs:
                     if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
                         total_x += blob.xmax-blob.xmin
-                if(total_x >= imgBin.shape[0]*globals.LINE_WHITE_PERCENTAGE):
+                if(total_x >= imgBin.shape[1]*globals.LINE_WHITE_PERCENTAGE):
                     desired_y = y
                     break
                 '''
