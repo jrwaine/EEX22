@@ -54,7 +54,6 @@ class AGV:
         self.movimentation.inicio()
 
     def verificar_parafuso(self):
-        self.camera = Camera()
         return self.camera.verificar()
 
     def kill(self):
