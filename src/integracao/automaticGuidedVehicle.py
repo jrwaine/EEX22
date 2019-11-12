@@ -31,6 +31,7 @@ class AGV:
                 self.log['Parafusos'].append({'Posicao': self.movimentation.encoder.data(), 'Angulo': angulo })
                 if angulo >= 15 and angulo <= 165:
                     self.tem_parafuso_para_apertar(angulo)
+                    self.move(5, globals.CIMA)
 
     def move(self, distance, parafusadeira_position):
         if self.parafusadeira.position != parafusadeira_position:
