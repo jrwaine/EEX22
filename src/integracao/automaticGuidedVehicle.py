@@ -18,12 +18,12 @@ class AGV:
         self.log = {'Parafusos': [], 'Distancia percorrida': 0, 'Fotos analisadas': 0, 'Objetos na frente': 0}
 
     def tem_parafuso_para_apertar(self, angulo):
-        self.move(30, globals.MEIO)
+        self.move(35, globals.MEIO)
         self.apertar(angulo)
 
     def andar_e_verificar(self):
-        while len(self.log['Parafusos']) != 4: #self.movimentation.encoder.position < 40:
-            self.movimentation.stop()
+        while len(self.log['Parafusos']) != 4 and self.movimentation.encoder.position < 300:
+            self.movsimentation.stop()
             angulo = self.verificar_parafuso()
             self.log['Fotos analisadas'] += 1
             self.move(5, globals.CIMA)
