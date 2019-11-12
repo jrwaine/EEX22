@@ -10,6 +10,8 @@ agv = None
 try:
     agv = AGV()
     
+    agv.move(30, globals.CIMA)
+
     agv.andar_e_verificar()
     log = agv.kill()
 
