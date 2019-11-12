@@ -3,14 +3,12 @@
 import socket
 import json
 import time
-
-HOST = '192.168.100.74'  # The server's hostname or IP address
-PORT = 9077        # The port used by the server
+import globals
 
 while True:
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((HOST, PORT))
+            s.connect((globals.HOST, globals.PORT))
             data = s.recv(1024)
             b = b''
             b += data
