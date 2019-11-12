@@ -23,7 +23,7 @@ class AGV:
 
     def andar_e_verificar(self):
         while len(self.log['Parafusos']) != 4 and self.movimentation.encoder.position < 300:
-            self.movsimentation.stop()
+            self.movimentation.stop()
             angulo = self.verificar_parafuso()
             self.log['Fotos analisadas'] += 1
             self.move(5, globals.CIMA)
