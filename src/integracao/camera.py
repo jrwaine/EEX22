@@ -90,7 +90,7 @@ class Camera:
             blob.theta = theta/pi*180
         
         theta_diff = None
-        
+        print("numero blobs", len(desiredBlobs))
         if(len(desiredBlobs) == 3):
             theta_diff = (desiredBlobs[0].theta + desiredBlobs[2].theta) - desiredBlobs[1].theta
             if(theta_diff < 0):
@@ -107,8 +107,8 @@ class Camera:
         times['Saving'] = time.time() - t0
 
         times['Total'] = time.time()- ini_time
-        pp.pprint(times)
-        print()
+        #pp.pprint(times)
+        #print()
 
         return theta_diff
 
@@ -154,8 +154,8 @@ class Camera:
     def get_blobs(self, img):
         blobs = []
 
-        # only looks for blobs in x=0.25 or x=0.5 or x=0.75
-        for x in [img.shape[1]//4, img.shape[1]//2, (img.shape[1]*3)//4]:
+        # only looks for blobs from 10 to 10 pixels
+        for x in np.arange(0, img.shape[1], 10):
             for y in range(0, img.shape[0]):
                 if(img[y, x] == globals.WHITE):
                     blobs.append(Blob())
@@ -166,49 +166,34 @@ class Camera:
     def get_desired_blobs(self, blobs, imgBin):
         desiredBlobs = []
         for i in range(0, len(blobs)):
-            blobs[i].valid = False
+            blobs[i].valid = True
             # validade width and height of blob
             if((blobs[i].xmax - blobs[i].xmin) < globals.MIN_WIDTH):
-                continue
-            if((blobs[i].ymax - blobs[i].ymin) < globals.MIN_HEIGHT):
-                continue
+                blobs[i].valid = False
+            elif((blobs[i].ymax - blobs[i].ymin) < globals.MIN_HEIGHT):
+                blobs[i].valid = False
             # validate blob y range
-            if((blobs[i].ymax == imgBin.shape[0] or\
+            elif((blobs[i].ymax == imgBin.shape[0] or\
                 blobs[i].ymin == 0)):
-                continue
-            blobs[i].valid = True
+                blobs[i].valid = False
             
-        for i in range(0, len(blobs)):
-            if(blobs[i].valid == False):
-                continue
-            
+
+        for blob in blobs:
+            print(blob.ymin, blob.ymax)
+        print("aa")
+
+        for y in range(0, imgBin.shape[0]):
             # check if blob line in x has "a lot" of white. If so
             # the blobs in the range are considered to be the desired ones
-            desired_y = -1
-            for y in range(blobs[i].ymin, blobs[i].ymax+1):
-                total_x = 0
-                for blob in blobs:
-                    if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
-                        total_x += blob.xmax-blob.xmin
-                if(total_x >= imgBin.shape[1]*globals.LINE_WHITE_PERCENTAGE):
-                    desired_y = y
-                    break
-                '''
-                if(np.sum(imgBin[y, :])/WHITE >= img.shape[0]*LINE_WHITE_PERCENTAGE):
-                    desired_y = y
-                    break
-                '''
-            if(desired_y == -1):
-                continue
+            total_x = 0
+            for blob in blobs:
+                if(blob.ymin <= y and blob.ymax >= y and blob.valid == True):
+                    total_x += blob.xmax-blob.xmin
+                    desiredBlobs.append(blob)
 
-            # get all blobs in the height of the y desired
-            for j in range(0, len(blobs)):
-                if(blobs[j].ymax >= desired_y and blobs[j].ymin <= desired_y):
-                    if(blobs[j].valid == True):
-                        desiredBlobs.append(blobs[j])
 
             # if it found less than 3 blobs
-            if(len(desiredBlobs) < 3):
+            if(len(desiredBlobs) < 3 or total_x < globals.LINE_WHITE_PIXELS):
                 desiredBlobs = []
             else:
                 break

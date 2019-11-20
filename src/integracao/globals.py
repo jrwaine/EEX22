@@ -51,7 +51,7 @@ MIN_WIDTH = 30
 MIN_HEIGHT = 7
 
 # percentage of white pixels in x line to consider it as containing the desired blobs
-LINE_WHITE_PERCENTAGE = 0.4
+LINE_WHITE_PIXELS = 50
 
 # ------------------------
 
